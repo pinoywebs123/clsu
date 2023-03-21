@@ -9,8 +9,9 @@ Route::get('/', function () {
 });
 
 Route::get('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register_check'])->name('register_check');
 Route::get('/login', [AuthController::class, 'login'])->name('login');
-
+Route::post('/login', [AuthController::class, 'login_check'])->name('login_check');
 
 Route::group(['prefix'=> 'users'], function(){
 
