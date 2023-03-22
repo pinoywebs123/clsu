@@ -16,5 +16,8 @@ Route::post('/login', [AuthController::class, 'login_check'])->name('login_check
 Route::group(['prefix'=> 'users'], function(){
 
     Route::get('/home', [AdminController::class, 'home'])->name('admin_home');
+    Route::get('/users', [AdminController::class, 'users'])->name('admin_users');
+    Route::get('/departments', [AdminController::class, 'departments'])->name('admin_departments');
+    Route::get('/supplies', [AdminController::class, 'supplies'])->name('admin_supplies');
 
 });

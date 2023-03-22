@@ -11,4 +11,19 @@ class AdminController extends Controller
     {
         return view('admin.home');
     }
+
+    public function users()
+    {
+        return view('admin.users');
+    }
+
+    public function supplies()
+    {
+        return view('admin.supplies');
+    }
+
+    public function departments()
+    {
+        return view('admin.departments');
+    }
 }
