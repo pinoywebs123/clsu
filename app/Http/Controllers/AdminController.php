@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Category;
 
 class AdminController extends Controller
 {
@@ -21,7 +22,8 @@ class AdminController extends Controller
 
     public function supplies()
     {
-        return view('admin.supplies');
+        $categories = Category::all();
+        return view('admin.supplies',compact('categories'));
     }
 
     public function departments()
