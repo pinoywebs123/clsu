@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Category;
 
 class CategorySeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        //
+        Category::create(['name'=> 'Common Supplies']);
+        Category::create(['name'=> 'Queuing Supplies']);
+        Category::create(['name'=> 'Consumable']);
+        Category::create(['name'=> 'Non-Consumable']);
     }
 }

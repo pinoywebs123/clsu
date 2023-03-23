@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Tables</title>
+    <title>CLSU Dashboard</title>
 
     <!-- Custom fonts for this template -->
     <link href="{{URL::to('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -152,7 +152,10 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
+                            @include('shared.notification')
+                            @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">USER LIST</h6>
+                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newUserModal">ADD USER</button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -167,18 +170,22 @@
                                     </thead>
                                    
                                     <tbody>
-                                        <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
+                                        @foreach($users as $user)
+                                         <tr>
+                                            <td>{{$user->first_name}} {{$user->last_name}}</td>
+                                            <td>{{$user->email}}</td>
+                                            <td>
+                                                <button class="btn btn-info btn-circle btn-sm edit" value="{{$user->id}}" data-toggle="modal" data-target="#userEditModal">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-circle btn-sm delete" data-toggle="modal" data-target="#userDeleteModal" value="{{$user->id}}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                             
                                         </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            
-                                        </tr>
+                                        @endforeach
+                                       
                                         
                                     </tbody>
                                 </table>
@@ -227,10 +234,135 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="{{route('logout')}}">Logout</a>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="modal" id="newUserModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Enter User Informations</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_users_check')}}" method="POST">
+                @csrf
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
+                            placeholder="First Name" name="first_name" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control form-control-user" id="exampleLastName"
+                            placeholder="Last Name" name="last_name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                        placeholder="Email Address" name="email" required>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="password" class="form-control form-control-user"
+                            id="exampleInputPassword" placeholder="Password" name="password" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control form-control-user"
+                            id="exampleRepeatPassword" placeholder="Repeat Password" name="repeat_password" required>
+                    </div>
+                </div>
+                
+                <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="userDeleteModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure to delete?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_delete_user')}}" method="POST">
+                @csrf
+                <input type="hidden" name="user_id" id="deleteUser">
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
+                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="userEditModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Enter User Informations</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_update_user')}}" method="POST">
+                @csrf
+                <input type="hidden" name="user_id" id="editUser">
+                <div class="form-group row">
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" class="form-control form-control-user" id="userEditFirstName"
+                            placeholder="First Name" name="first_name" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control form-control-user" id="userEditLastName"
+                            placeholder="Last Name" name="last_name" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control form-control-user" id="userEditEmail"
+                        placeholder="Email Address" name="email" required>
+                </div>
+                
+                
+                <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
     </div>
 
     <!-- Bootstrap core JavaScript-->
@@ -249,6 +381,30 @@
 
     <!-- Page level custom scripts -->
     <script src="{{URL::to('js/demo/datatables-demo.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            var token = '{{Session::token()}}';
+            var findUserUrl = '{{route("admin_find_user")}}';
+            $(".delete").click(function(){
+                $("#deleteUser").val($(this).val());
+            });
+            $(".edit").click(function(){
+                var user_id = $(this).val();
+                $("#editUser").val(user_id);
+                $.ajax({
+                   type:'POST',
+                   url:findUserUrl,
+                   data:{_token: token, user_id: user_id},
+                   success:function(data) {
+                      $("#userEditFirstName").val(data.first_name);
+                      $("#userEditLastName").val(data.last_name);
+                      $("#userEditEmail").val(data.email);
+                   }
+                });
+
+            });
+        });
+    </script>
 
 </body>
 
