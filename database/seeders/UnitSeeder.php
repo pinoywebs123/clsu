@@ -15,7 +15,6 @@ class UnitSeeder extends Seeder
      */
     public function run()
     {
-       
-
+        Unit::create(['name'=> 'box']);
     }
 }
