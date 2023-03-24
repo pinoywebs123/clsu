@@ -27,6 +27,10 @@ Route::group(['prefix'=> 'users'], function(){
 
 
     Route::get('/departments', [AdminController::class, 'departments'])->name('admin_departments');
+    Route::post('/departments', [AdminController::class, 'departments_check'])->name('admin_departments_check');
+    Route::post('/delete-department', [AdminController::class, 'delete_department'])->name('admin_delete_department');
+    Route::post('/find-department', [AdminController::class, 'find_department'])->name('admin_find_department');
+    Route::post('/update-department', [AdminController::class, 'update_department'])->name('admin_update_department');
 
 
     Route::get('/supplies', [AdminController::class, 'supplies'])->name('admin_supplies');

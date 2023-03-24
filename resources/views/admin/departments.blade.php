@@ -152,7 +152,10 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
+                            @include('shared.notification')
+                            @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">DEPARTMENT LIST</h6>
+                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newDepartmentModal">ADD DEPARTMENT</button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -160,16 +163,26 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Created</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     
                                     <tbody>
+                                        @foreach($departments as $dept)
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>$320,800</td>
+                                            <td>{{$dept->name}}</td>
+                                            <td>{{$dept->created_at}}</td>
+                                            <td>
+                                                <button class="btn btn-info btn-circle btn-sm edit" value="{{$dept->id}}" data-toggle="modal" data-target="#editDepartmentModal">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-circle btn-sm delete" data-toggle="modal" data-target="#deleteDepartmentModal" value="{{$dept->id}}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
-                                        
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -223,6 +236,103 @@
         </div>
     </div>
 
+    <div class="modal" id="newDepartmentModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Enter Department Informations</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_departments_check')}}" method="POST">
+                @csrf
+                
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="exampleInputEmail"
+                        placeholder="Department Name" name="name" required>
+                </div>
+               
+                
+                <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
+     <div class="modal" id="deleteDepartmentModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure to delete?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_delete_department')}}" method="POST">
+                @csrf
+                <input type="hidden" name="department_id" id="deleteDepartment">
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
+                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
+     <div class="modal" id="editDepartmentModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Enter Department Informations</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_update_department')}}" method="POST">
+                @csrf
+                <input type="hidden" name="department_id" id="editDepartment">
+                <div class="form-group">
+                    <input type="text" class="form-control form-control-user" id="editDepartmentInput"
+                        placeholder="Department Name" name="name" required>
+                </div>
+               
+                
+                <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{URL::to('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -239,7 +349,28 @@
 
     <!-- Page level custom scripts -->
     <script src="{{URL::to('js/demo/datatables-demo.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            var token = '{{Session::token()}}';
+            var findUserUrl = '{{route("admin_find_department")}}';
+            $(".delete").click(function(){
+                $("#deleteDepartment").val($(this).val());
+            });
+            $(".edit").click(function(){
+                var department_id = $(this).val();
+                $("#editDepartment").val(department_id);
+                $.ajax({
+                   type:'POST',
+                   url:findUserUrl,
+                   data:{_token: token, department_id: department_id},
+                   success:function(data) {
+                     $("#editDepartmentInput").val(data.name);
+                   }
+                });
 
+            });
+        });
+    </script>
 </body>
 
 </html>

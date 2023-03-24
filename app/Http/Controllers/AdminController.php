@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Department;
 
 class AdminController extends Controller
 {
@@ -28,7 +29,47 @@ class AdminController extends Controller
 
     public function departments()
     {
-        return view('admin.departments');
+        $departments = Department::all();
+        return view('admin.departments',compact('departments'));
+    }
+
+    public function departments_check(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+        ]);
+        $validated['status_id'] = 1;
+        Department::create($validated);
+        return redirect()->back()->with('success','Department Created Successfully!');
+    }
+
+    public function delete_department(Request $request)
+    {
+       $find = Department::find($request->department_id);
+        if($find)
+        {
+            $find->delete();
+            return redirect()->back()->with('success','Department Deleted Successfully!');
+        }
+    }
+
+    public function find_department(Request $request)
+    {
+        $find = Department::find($request->department_id);
+        return response()->json($find);
+    }
+
+    public function update_department(Request $request)
+    {
+        $find = Department::find($request->department_id);
+        if($find)
+        {
+            $find->update([
+                'name'    => $request->name,
+                
+            ]);
+            return redirect()->back()->with('success','Department Updated Successfully!');
+        }
     }
 
     public function users_check(Request $request)
