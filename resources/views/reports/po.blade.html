@@ -9,14 +9,103 @@
             box-sizing: border-box;
         }
 
+        body {
+            padding: 10px;
+        }
 
+        .clearer {
+            clear: both;
+        }
+
+        .heading {
+            text-align: center;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .h-100 {
+            height: 100%;
+        }
+
+        .w-50 {
+            width: 50%;
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .w-200 {
+            width: 200px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .fs-2 {
+            font-size: 1.2em;
+        }
+
+        .fs-3 {
+            font-size: 1.5em;
+        }
+
+        .mb-1 {
+            margin-bottom: 5px;
+        }
+
+        .pl-1 {
+            padding-left: 30px;
+        }
+
+        .bb {
+            border-bottom: 1px solid #333;
+        }
     </style>
 </head>
 <body>
-    <div class="center">
+    <div class="center mb-1">
         <p>Republic of the Philippines</p>
         <p><b>CENTRAL LUZON STATE UNIVERSITY</b></p>
-        <p>Science City of Muñoz, Nueva Icija</p>
+        <p>Science City of Mu&ntilde;oz, Nueva Icija</p>
     </div>
+
+    <div class="mb-1">
+        <div class="left bold w-200 pl-1">
+            2366
+        </div>
+        <div class="center right w-200 fs-2">
+            General Admission
+        </div>
+        <div class="clearer"></div>
+    </div>
+
+    <div class="center">
+        <p class="fs-2 bold">PURCHASE ORDER</p>
+    </div>
+
+    <div class="bb">
+        <p class="pl-1">PR# 22-8-3091</p>
+    </div>
+
+    <table class="w-100">
+        <tr>
+            <td>Supplier</td>
+            <td class="bold underlined">: PANDAYAN BOOKSHOP, INC.</td>
+            <td>P.o. No.</td>
+            <td class="center bold">2366</td>
+        </tr>
+    </table>
 </body>
 </html>
