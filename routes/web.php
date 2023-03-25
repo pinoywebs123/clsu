@@ -34,5 +34,8 @@ Route::group(['prefix'=> 'users'], function(){
 
 
     Route::get('/supplies', [AdminController::class, 'supplies'])->name('admin_supplies');
+    Route::post('/supplies', [AdminController::class, 'supplies_check'])->name('admin_supplies_check');
+    Route::post('/find-supplies', [AdminController::class, 'find_supplies'])->name('admin_find_supplies');
+    Route::post('/update-supplies', [AdminController::class, 'update_supplies'])->name('admin_update_supplies');
 
 });

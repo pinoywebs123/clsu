@@ -150,6 +150,8 @@
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
+                            @include('shared.notification')
+                            @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">SUPPLIES LIST</h6>
                             <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newSupplyModal">ADD SUPPLY</button>
                         </div>
@@ -158,32 +160,38 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
-                                            <th>Position</th>
-                                            <th>Office</th>
-                                            <th>Age</th>
-                                            <th>Start date</th>
-                                            <th>Salary</th>
+                                            <th>Department</th>
+                                            <th>Category</th>
+                                            <th>Description</th>
+                                            <th>Code</th>
+                                            <th>Unit</th>
+                                            <th>Price</th>
+                                            <th>QR CODe</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                    
                                     <tbody>
+                                        @foreach($supplies as $supply)
                                         <tr>
-                                            <td>Tiger Nixon</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                            <td>61</td>
-                                            <td>2011/04/25</td>
-                                            <td>$320,800</td>
+                                            <th>{{$supply->department->name}}</th>
+                                            <th>{{$supply->category->name}}</th>
+                                            <th>{{$supply->description}}</th>
+                                            <th>{{$supply->supply_code}}</th>
+                                            <th>{{$supply->unit->name}}</th>
+                                            <th>P{{number_format((float)$supply->price, 2, '.', '')}}</th>
+                                            <th>{{SimpleSoftwareIO\QrCode\Facades\QrCode::size(50)->generate($supply->qr_code)}}</th>
+                                            <th>
+                                                <button class="btn btn-info btn-circle btn-sm edit" value="{{$supply->id}}" data-toggle="modal" data-target="#editSupplyModal">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </button>
+                                                <button class="btn btn-danger btn-circle btn-sm delete" value="{{$supply->id}}" data-toggle="modal" data-target="#addStockSupplyModal">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                                
+                                            </th>
                                         </tr>
-                                        <tr>
-                                            <td>Garrett Winters</td>
-                                            <td>Accountant</td>
-                                            <td>Tokyo</td>
-                                            <td>63</td>
-                                            <td>2011/07/25</td>
-                                            <td>$170,750</td>
-                                        </tr>
+                                        @endforeach
                                         
                                     </tbody>
                                 </table>
@@ -250,25 +258,34 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form class="user" action="{{route('admin_users_check')}}" method="POST">
+            <form class="user" action="{{route('admin_supplies_check')}}" method="POST">
                 @csrf
                
                 <div class="form-group">
-                    <textarea class="form-control form-control" placeholder="Item Description" required></textarea>
+                    <textarea class="form-control form-control" placeholder="Item Description" name="description" required></textarea>
                 </div>
 
                  <div class="form-group row">
                     
                     <div class="col-sm-6">
                         <input type="text" class="form-control form-control" id="exampleLastName"
-                            placeholder="Supply Code" name="code" required>
+                            placeholder="Supply Code" name="supply_code" required>
                     </div>
 
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="number" class="form-control form-control" id="exampleFirstName"
+                        <input type="number" class="form-control" id="exampleFirstName"
                             placeholder="Supply Price Per Unit" name="price" required>
                     </div>
 
+                </div>
+
+                <div class="form-group">
+                    <label>Select Department</label>
+                    <select class="form-control" name="department_id" required>
+                        @foreach($departments as $dept)
+                            <option value="{{$dept->id}}">{{$dept->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
 
                 <div class="form-group row">
@@ -284,9 +301,85 @@
 
                     <div class="col-sm-6 mb-3 mb-sm-0">
                        <label>Select Unit</label>
-                       <select class="form-control form-control" name="category_id" required>
-                           
+                       <select class="form-control form-control" name="unit_id" required>
+                           @foreach($units as $unit)
+                            <option value="{{$unit->id}}">{{$unit->name}}</option>
+                           @endforeach
+                       </select>
+                    </div>
+                    
+                </div>
+                
+                <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
+                <hr>
+                
+            </form>
 
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="editSupplyModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Enter Supply Informations</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_update_supplies')}}" method="POST">
+                @csrf
+                <input type="hidden" name="supply_id" id="supplyEdit">
+                <div class="form-group">
+                    <textarea class="form-control form-control" placeholder="Item Description" name="description" required id="supplyDescriptionFind"></textarea>
+                </div>
+
+                 <div class="form-group row">
+                    
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control form-control" placeholder="Supply Code" name="supply_code" required id="supply_code_find">
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                        <input type="number" class="form-control" placeholder="Supply Price Per Unit" name="price" required id="pricefind">
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Select Department</label>
+                    <select class="form-control" name="department_id" required id="departmentFind">
+                        @foreach($departments as $dept)
+                            <option value="{{$dept->id}}">{{$dept->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group row">
+
+                    <div class="col-sm-6">
+                        <label>Select Category</label>
+                       <select class="form-control form-control" name="category_id" required id="categoryFind">
+                           @foreach($categories as $cat)
+                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                           @endforeach
+                       </select>
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                       <label>Select Unit</label>
+                       <select class="form-control form-control" name="unit_id" required id="unit_idFind">
+                           @foreach($units as $unit)
+                            <option value="{{$unit->id}}">{{$unit->name}}</option>
+                           @endforeach
                        </select>
                     </div>
                     
@@ -321,7 +414,33 @@
 
     <!-- Page level custom scripts -->
     <script src="{{URL::to('js/demo/datatables-demo.js')}}"></script>
+    <script>
+        $(document).ready(function(){
+            var token = '{{Session::token()}}';
+            var findUserUrl = '{{route("admin_find_supplies")}}';
+            $(".delete").click(function(){
+                $("#deleteUser").val($(this).val());
+            });
+            $(".edit").click(function(){
+                var supply_id = $(this).val();
+                $("#supplyEdit").val(supply_id);
+                $.ajax({
+                   type:'POST',
+                   url:findUserUrl,
+                   data:{_token: token, supply_id: supply_id},
+                   success:function(data) {
+                     $("#supplyDescriptionFind").val(data.description);
+                     $("#supply_code_find").val(data.supply_code);
+                     $("#pricefind").val(data.price);
+                     $("#departmentFind").val(data.department_id);
+                     $("#categoryFind").val(data.category_id);
+                     $("#unit_idFind").val(data.unit_id);
+                   }
+                });
 
+            });
+        });
+    </script>
 </body>
 
 </html>

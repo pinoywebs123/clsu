@@ -6,23 +6,26 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Department;
 
 class AuthController extends Controller
 {
     
     public function register()
     {
-         return view('auth.register');
+        $departments = Department::all();
+         return view('auth.register',compact('departments'));
     }
 
     public function register_check(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|unique:users|max:255',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'password' => 'required|max:12|min:6',
-            'repeat_password' => 'required|same:password',
+            'email'             => 'required|unique:users|max:255',
+            'first_name'        => 'required',
+            'last_name'         => 'required',
+            'password'          => 'required|max:12|min:6',
+            'repeat_password'   => 'required|same:password',
+            'department_id'     => 'required'
         ]);
 
         $validated['status_id'] = 1;

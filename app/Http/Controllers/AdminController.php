@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Department;
+use App\Models\Unit;
+use App\Models\Supply;
+
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -24,7 +28,57 @@ class AdminController extends Controller
     public function supplies()
     {
         $categories = Category::all();
-        return view('admin.supplies',compact('categories'));
+        $units = Unit::all();
+        $departments = Department::all();
+        $supplies = Supply::all();
+        return view('admin.supplies',compact('categories','supplies','departments','units'));
+    }
+
+    public function supplies_check(Request $request)
+    {
+        $validated = $request->validate([
+            'department_id'     => 'required',
+            'category_id'       => 'required',
+            'unit_id'           => 'required',
+            'description'       => 'required',
+            'supply_code'       => 'required|unique:supplies',
+            'price'             => 'required',
+        ]);
+
+        $validated['status_id'] = 1;
+        $validated['user_id']   = Auth::id();
+        $validated['qr_code']   = rand(123456789,987654321);
+
+        Supply::create($validated);
+        return redirect()->back()->with('success','Supply Created Successfully!');
+    }
+
+    public function find_supplies(Request $request)
+    {
+        $find =  Supply::find($request->supply_id);
+        return response()->json($find);
+    }
+
+    public function update_supplies(Request $request)
+    {
+         $validated = $request->validate([
+            'department_id'     => 'required',
+            'category_id'       => 'required',
+            'unit_id'           => 'required',
+            'description'       => 'required',
+            'supply_code'       => 'required',
+            'price'             => 'required',
+            'supply_id'         => 'required'
+        ]);
+
+        $find =  Supply::find($request->supply_id);
+        if($find)
+        {
+            unset($validated['supply_id']);
+            $find->update($validated);
+            return redirect()->back()->with('success','Supply Updated Successfully!');
+        }
+
     }
 
     public function departments()
