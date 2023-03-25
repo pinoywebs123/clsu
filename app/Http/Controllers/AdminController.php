@@ -30,7 +30,7 @@ class AdminController extends Controller
         $categories = Category::all();
         $units = Unit::all();
         $departments = Department::all();
-        if( Auth::user()->hasRole('admin') )
+        if( Auth::user()->hasRole('admin') || Auth::user()->hasRole('warehouse'))
         {
             $supplies = Supply::all();
         }else if( Auth::user()->hasRole('department') )

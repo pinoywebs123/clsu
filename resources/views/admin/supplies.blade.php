@@ -68,12 +68,15 @@
             </li>
             @endif
 
-             @if(Auth::user()->hasRole('department'))
+             @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse'))
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
+            @endif
+
+            @if(Auth::user()->hasRole('department'))
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('department_request')}}">
                     <i class="fas fa-fw fa-table"></i>
@@ -169,7 +172,7 @@
                             @include('shared.notification')
                             @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">SUPPLIES LIST</h6>
-                            @if(Auth::user()->hasRole('admin'))
+                            @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('warehouse'))
                             <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newSupplyModal">ADD SUPPLY</button>
                             @endif
                         </div>
@@ -200,7 +203,7 @@
                                             <th>P{{number_format((float)$supply->price, 2, '.', '')}}</th>
                                             <th>{{SimpleSoftwareIO\QrCode\Facades\QrCode::size(50)->generate($supply->qr_code)}}</th>
                                             <th>
-                                                @if(Auth::user()->hasRole('admin'))
+                                                @if(Auth::user()->hasRole('admin') || Auth::user()->hasRole('warehouse'))
                                                 <button class="btn btn-info btn-circle btn-sm edit" value="{{$supply->id}}" data-toggle="modal" data-target="#editSupplyModal">
                                                     <i class="fas fa-info-circle"></i>
                                                 </button>

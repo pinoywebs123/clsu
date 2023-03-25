@@ -61,6 +61,9 @@ class AuthController extends Controller
             }else if( Auth::user()->hasRole('department') )
             {
                 return redirect()->route('admin_supplies');  
+            }else if( Auth::user()->hasRole('warehouse') )
+            {
+                return redirect()->route('admin_supplies'); 
             }
             
         }else 
