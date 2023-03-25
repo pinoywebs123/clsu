@@ -30,7 +30,14 @@ class AdminController extends Controller
         $categories = Category::all();
         $units = Unit::all();
         $departments = Department::all();
-        $supplies = Supply::all();
+        if( Auth::user()->hasRole('admin') )
+        {
+            $supplies = Supply::all();
+        }else if( Auth::user()->hasRole('department') )
+        {
+             $supplies = Supply::where('department_id',Auth::user()->department_id)->get();
+        }
+        
         return view('admin.supplies',compact('categories','supplies','departments','units'));
     }
 

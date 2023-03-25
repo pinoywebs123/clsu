@@ -49,7 +49,7 @@
             <hr class="sidebar-divider">
 
            
-
+            @if(Auth::user()->hasRole('admin'))
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_home')}}">
@@ -66,11 +66,15 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>DEPARTMENT</span></a>
             </li>
+             @endif
+
+            @if(Auth::user()->hasRole('department'))
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
+            @endif
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
