@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\WareHouseController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -37,5 +39,9 @@ Route::group(['prefix'=> 'users'], function(){
     Route::post('/supplies', [AdminController::class, 'supplies_check'])->name('admin_supplies_check');
     Route::post('/find-supplies', [AdminController::class, 'find_supplies'])->name('admin_find_supplies');
     Route::post('/update-supplies', [AdminController::class, 'update_supplies'])->name('admin_update_supplies');
+
+    //DEPARTMENT
+    Route::get('/department-request', [DepartmentController::class, 'request'])->name('department_request');
+    Route::get('/department-history', [DepartmentController::class, 'history'])->name('department_history');
 
 });
