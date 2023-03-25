@@ -25,7 +25,7 @@ class UnitSeeder extends Seeder
         Unit::create(['name'=> 'kilogram']);
         Unit::create(['name'=> 'bag']);
         Unit::create(['name'=> 'bot']);
-        Unit::create(['name'=> 'truck load or t.l.']);
+        Unit::create(['name'=> 'truck load']);
         Unit::create(['name'=> 'bundle']);
         Unit::create(['name'=> 'ream']);
         Unit::create(['name'=> 'pad']);
