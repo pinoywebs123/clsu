@@ -49,7 +49,7 @@
             <hr class="sidebar-divider">
 
            
-
+             @if(Auth::user()->hasRole('admin'))
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_home')}}">
@@ -61,21 +61,46 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>REQUESTED</span></a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="{{route('admin_users')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>USERS</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="{{route('admin_departments')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>DEPARTMENT</span></a>
             </li>
+            @endif
+
+             @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
+            @endif
+
+            @if( Auth::user()->hasRole('warehouse') )
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('admin_scan_qr_code')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>QR CODE</span></a>
+            </li>
+            @endif
+
+            @if(Auth::user()->hasRole('department'))
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('department_request')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('department_history')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>HISTORY</span></a>
+            </li>
+            @endif
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -124,7 +149,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{Auth::user()->first_name}} {{Auth::user()->last_name}}
+                                </span>
                                 <img class="img-profile rounded-circle"
                                     src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
@@ -152,44 +179,26 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                   
-
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             @include('shared.notification')
                             @include('shared.validation')
-                            <h6 class="m-0 font-weight-bold text-primary">DEPARTMENT LIST</h6>
-                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newDepartmentModal">ADD DEPARTMENT</button>
+                            <h6 class="m-0 font-weight-bold text-primary">SCAN QR CODE</h6>
+                           
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Created</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                        @foreach($departments as $dept)
-                                        <tr>
-                                            <td>{{$dept->name}}</td>
-                                            <td>{{$dept->created_at}}</td>
-                                            <td>
-                                                <button class="btn btn-info btn-circle btn-sm edit" value="{{$dept->id}}" data-toggle="modal" data-target="#editDepartmentModal">
-                                                    <i class="fas fa-info-circle"></i>
-                                                </button>
-                                                <button class="btn btn-danger btn-circle btn-sm delete" data-toggle="modal" data-target="#deleteDepartmentModal" value="{{$dept->id}}">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <div class="container-fluid">
+                                    <div class="col-6 offset-3">
+                                        <form>
+                                            <h3 class="text-center">Scan QR CODE HERE</h3>
+                                            <div class="form-group">
+                                                <input type="text" name="qr_code" class="form-control" id="qr_code_scanner" autofocus>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -241,102 +250,7 @@
         </div>
     </div>
 
-    <div class="modal" id="newDepartmentModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Enter Department Informations</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form class="user" action="{{route('admin_departments_check')}}" method="POST">
-                @csrf
-                
-                <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="exampleInputEmail"
-                        placeholder="Department Name" name="name" required>
-                </div>
-               
-                
-                <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
-                <hr>
-                
-            </form>
-
-          </div>
-
-         
-
-        </div>
-      </div>
-    </div>
-
-     <div class="modal" id="deleteDepartmentModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Are you sure to delete?</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form class="user" action="{{route('admin_delete_department')}}" method="POST">
-                @csrf
-                <input type="hidden" name="department_id" id="deleteDepartment">
-                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
-                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
-                <hr>
-                
-            </form>
-
-          </div>
-
-         
-
-        </div>
-      </div>
-    </div>
-
-     <div class="modal" id="editDepartmentModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Enter Department Informations</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form class="user" action="{{route('admin_update_department')}}" method="POST">
-                @csrf
-                <input type="hidden" name="department_id" id="editDepartment">
-                <div class="form-group">
-                    <input type="text" class="form-control form-control-user" id="editDepartmentInput"
-                        placeholder="Department Name" name="name" required>
-                </div>
-               
-                
-                <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
-                <hr>
-                
-            </form>
-
-          </div>
-
-         
-
-        </div>
-      </div>
-    </div>
+   
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
@@ -357,19 +271,17 @@
     <script>
         $(document).ready(function(){
             var token = '{{Session::token()}}';
-            var findUserUrl = '{{route("admin_find_department")}}';
-            $(".delete").click(function(){
-                $("#deleteDepartment").val($(this).val());
-            });
-            $(".edit").click(function(){
-                var department_id = $(this).val();
-                $("#editDepartment").val(department_id);
+            var findUserUrl = '{{route("admin_scan_qr_code_check")}}';
+            
+            $("#qr_code_scanner").change(function(){
+                var qr_code = $(this).val();
+               
                 $.ajax({
                    type:'POST',
                    url:findUserUrl,
-                   data:{_token: token, department_id: department_id},
+                   data:{_token: token, qr_code: qr_code},
                    success:function(data) {
-                     $("#editDepartmentInput").val(data.name);
+                     alert(JSON.stringify(data));
                    }
                 });
 

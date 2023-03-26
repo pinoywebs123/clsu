@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
 
+use Spatie\Permission\Models\Role;
+
 class AuthController extends Controller
 {
     
@@ -32,7 +34,9 @@ class AuthController extends Controller
         $validated['password'] = bcrypt($validated['password']);
 
 
-        User::create($validated);
+        $user = User::create($validated);
+
+        $user->assignRole('department');
 
         return redirect()->back()->with('success','Registered Successfully!');
     }
@@ -51,7 +55,17 @@ class AuthController extends Controller
 
         if(Auth::attempt($validated))
         {
-            return redirect()->route('admin_home');
+            if( Auth::user()->hasRole('admin') )
+            {
+                return redirect()->route('admin_home');  
+            }else if( Auth::user()->hasRole('department') )
+            {
+                return redirect()->route('admin_supplies');  
+            }else if( Auth::user()->hasRole('warehouse') )
+            {
+                return redirect()->route('admin_supplies'); 
+            }
+            
         }else 
         {
             return back()->with('error','Invalid Email/Password Combination');

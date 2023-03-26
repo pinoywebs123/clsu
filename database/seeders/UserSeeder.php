@@ -17,6 +17,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
+        //supplies status
+        // 0 - pending 
+        // 1 - approved
+        // 2 - receieved
+        // 3 - return
         
         $user = new User;
         $user->first_name   = 'Admin';    
@@ -28,5 +34,16 @@ class UserSeeder extends Seeder
         $user->save();
 
         $user->assignRole('admin');
+
+        $user2 = new User;
+        $user2->first_name   = 'Warehouse';    
+        $user2->last_name    = 'User';
+        $user2->password     = bcrypt('123123');
+        $user2->email        = 'warehouse@gmail.com';
+        $user2->status_id    = 1;
+        $user2->department_id = 0;
+        $user2->save();
+
+        $user2->assignRole('warehouse');
     }
 }
