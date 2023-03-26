@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\WareHouseController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -34,5 +36,26 @@ Route::group(['prefix'=> 'users'], function(){
 
 
     Route::get('/supplies', [AdminController::class, 'supplies'])->name('admin_supplies');
+    Route::post('/supplies', [AdminController::class, 'supplies_check'])->name('admin_supplies_check');
+    Route::post('/find-supplies', [AdminController::class, 'find_supplies'])->name('admin_find_supplies');
+    Route::post('/update-supplies', [AdminController::class, 'update_supplies'])->name('admin_update_supplies');
+
+    //REQUEST ADMIN
+    Route::get('/request-supplies', [AdminController::class, 'request_supplies'])->name('admin_request_supplies');
+    Route::post('/approve-supplies', [AdminController::class, 'approve_supplies'])->name('admin_approve_supplies');
+    Route::post('/cancel-supplies', [AdminController::class, 'cancel_supplies'])->name('admin_cancel_supplies');
+
+    //WAREHOUSE 
+    Route::get('/scan-qr-code', [AdminController::class, 'scan_qr_code'])->name('admin_scan_qr_code');
+    Route::post('/scan-qr-code', [AdminController::class, 'scan_qr_code_check'])->name('admin_scan_qr_code_check');
+
+
+    //DEPARTMENT
+    Route::get('/department-request', [DepartmentController::class, 'request'])->name('department_request');
+    Route::post('/department-request', [DepartmentController::class, 'request_check'])->name('department_request_check');
+    Route::get('/department-history', [DepartmentController::class, 'history'])->name('department_history');
+
+    Route::post('/received-supply', [DepartmentController::class, 'received_supply'])->name('department_received_supply');
+    Route::post('/return-supply', [DepartmentController::class, 'return_supply'])->name('department_return_supply');
 
 });
