@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inspection And Acceptance Report</title>
+    <style>
+        * { 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding: 10px;
+        }
+
+        .clearer {
+            clear: both;
+        }
+
+        .left {
+            float: left;
+        }
+
+        .right {
+            float: right;
+        }
+
+        .h-100 {
+            height: 100%;
+        }
+
+        .w-200 {
+            width: 200px;
+        }
+
+        .w-50 {
+            width: 50%;
+        }
+
+        .bb {
+            border-bottom: 1px solid #333;
+        }
+
+        .fu-1 {
+            border: 1px solid #333;
+            text-align: left;
+        }
+        
+        .w-70 {
+            width: 70%;
+        }
+
+        .w-30 {
+            width: 30%;
+        }
+        
+        #heading {
+            text-align: center;
+        }
+
+        #heading h1 {
+            margin-bottom: 50px;
+        }
+
+        #supplier {
+            width: 65px;
+        }
+
+        #supplier_line {
+            max-width: 700px;
+            width: calc(100% - 85px);
+        }
+
+        #PO_No_Date {
+            width: 100px;
+        }
+
+        #PO_No_Date_line {
+            max-width: 700px;
+            width: calc(100% - 120px);
+        }
+
+        #Requisitioning_Office_Dept {
+            width: 200px;
+        }
+
+        #Requisitioning_Office_Dept_line {
+            max-width: 700px;
+            width: calc(100% - 220px);
+        }
+
+        #body {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="heading">
+        <h1>INSPECTION AND ACCEPTANCE REPORT</h1>
+        <div class="right w-200">
+            <p class="left w-50">Fund Cluster: </p>
+            <div class="left w-50 h-100 bb">&nbsp;</div>
+            <div class="clearer"></div>
+        </div>
+        <div class="clearer"></div>
+    </div>
+    <div id="body">
+        <div class="fu-1 left w-70">
+            <div>
+                <p id="supplier" class="left">Supplier: </p>
+                <div id="supplier_line" class="left h-100 bb">&nbsp;</div>
+                <div class="clearer"></div>
+            </div>
+            <div>
+                <p id="PO_No_Date" class="left">PO No./Date :</p>
+                <div id="PO_No_Date_line" class="left h-100 bb">&nbsp;</div>
+                <div class="clearer"></div>
+            </div>
+            <div>
+                <p id="Requisitioning_Office_Dept" class="left">Requisitioning Office/Dept. :</p>
+                <div id="Requisitioning_Office_Dept_line" class="left h-100 bb">&nbsp;</div>
+                <div class="clearer"></div>
+            </div>
+            <div>
+                <p>Responsibility Center Code :</p>
+            </div>
+        </div>
+        <div class="fu-1 left w-30">
+            <p>IAR No.: </p>
+            <p>Date: </p>
+            <p>Invoice No.:</p>
+            <p>Date: </p>
+        </div>
+
+        <div class="clearer"></div>
+    </div>
+</body>
+</html>
