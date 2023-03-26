@@ -37,18 +37,18 @@ class CategorySeeder extends Seeder
                 Sub::create(['category_id'=> $cat->id,'name'=> 'LOAD CARDS AND COMMUNICATION']);
 
         $cat2 =  Category::create(['name'=> 'CONSTRUCTION SUPPLIES']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'GENERAL CONSTRUCTION SUPPLIES AND MATERIALS']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'TILES SUPPLIES AND OTHER ACCESSORIES']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'WATER WORK SUPPLIES AND OTHER MATERIALS']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'ELECTRICAL SUPPLIES AND MATERIALS']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'PAINT AND PAINTWORK MATERIALS']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'CONSTRUCTION TOOLS AND OTHER SUPPLIES']);
+                Sub::create(['category_id'=> $cat2->id,'name'=> 'GENERAL CONSTRUCTION SUPPLIES AND MATERIALS']);
+                Sub::create(['category_id'=> $cat2->id,'name'=> 'TILES SUPPLIES AND OTHER ACCESSORIES']);
+                Sub::create(['category_id'=> $cat2->id,'name'=> 'WATER WORK SUPPLIES AND OTHER MATERIALS']);
+                Sub::create(['category_id'=> $cat2->id,'name'=> 'ELECTRICAL SUPPLIES AND MATERIALS']);
+                Sub::create(['category_id'=> $cat2->id,'name'=> 'PAINT AND PAINTWORK MATERIALS']);
+                Sub::create(['category_id'=> $cat2->id,'name'=> 'CONSTRUCTION TOOLS AND OTHER SUPPLIES']);
 
         $cat3 =  Category::create(['name'=> 'AGRICULTURAL AND AQUATIC SUPPLIES']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'FARM INPUTS SUPPLIES']);
+                Sub::create(['category_id'=> $cat3->id,'name'=> 'FARM INPUTS SUPPLIES']);
 
         $cat4 =  Category::create(['name'=> 'FUEL AND OIL SUPPLY']);
-                Sub::create(['category_id'=> $cat->id,'name'=> 'FUEL AND OIL SUPPLIES']);
+                Sub::create(['category_id'=> $cat4->id,'name'=> 'FUEL AND OIL SUPPLIES']);
         
     }
 }
