@@ -137,7 +137,7 @@
                                     {{Auth::user()->first_name}} {{Auth::user()->last_name}}
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -178,6 +178,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>STATUS</th>
                                             <th>Department</th>
                                             <th>Category</th>
                                             <th>Description</th>
@@ -190,7 +191,30 @@
                                     </thead>
                                    
                                     <tbody>
-                                        
+                                        @foreach($requested_supplies as $request)
+                                            <tr>
+                                                <td>
+                                                    @if($request->status_id == 0)
+                                                        <span class="btn-warning">PENDING APPROVAL</span>
+                                                    @elseif($request->status_id == 1)
+                                                        <span class="btn-success">APPROVED</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{$request->supply->department->name}}</td>
+                                                <td>{{$request->supply->category->name}}</td>
+                                                <td>{{$request->supply->description}}</td>
+                                                <td>{{$request->supply->supply_code}}</td>
+                                                <td>{{$request->supply->unit->name}}</td>
+                                                <td>{{$request->supply->price}}</td>
+                                                <td>{{$request->supply->qr_code}}</td>
+                                                <td>
+                                                    @if($request->status_id == 1)
+                                                    <button class="btn btn-success btn-sm received" data-toggle="modal" data-target="#requestSupplyReceived" value="{{$request->id}}">RECEIVED</button>
+                                                    <button class="btn btn-danger return btn-sm" data-toggle="modal" data-target="#requestSupplyReturnModal" value="{{$request->id}}">RETURN</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                         
                                     </tbody>
                                 </table>
@@ -245,7 +269,63 @@
         </div>
     </div>
 
-    
+    <div class="modal" id="requestSupplyReceived">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Did  you received the Supply?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('department_received_supply')}}" method="POST">
+                @csrf
+                <input type="hidden" name="request_id" id="requestSupply">
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
+                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
+     <div class="modal" id="requestSupplyReturnModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure you received the return Supply?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('department_return_supply')}}" method="POST">
+                @csrf
+                <input type="hidden" name="request_id" id="requestSupplyReturn">
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
+                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
 
 
 
@@ -269,8 +349,11 @@
         $(document).ready(function(){
             var token = '{{Session::token()}}';
             var findUserUrl = '{{route("admin_find_supplies")}}';
-            $(".delete").click(function(){
-                $("#deleteUser").val($(this).val());
+            $(".received").click(function(){
+                $("#requestSupply").val($(this).val());
+            });
+             $(".return").click(function(){
+                $("#requestSupplyReturn").val($(this).val());
             });
             $(".edit").click(function(){
                 var supply_id = $(this).val();

@@ -51,6 +51,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>HOME</span></a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_request_supplies')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{route('admin_users')}}">
                     <i class="fas fa-fw fa-table"></i>

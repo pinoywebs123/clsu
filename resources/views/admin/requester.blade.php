@@ -49,14 +49,19 @@
             <hr class="sidebar-divider">
 
            
-             @if(Auth::user()->hasRole('admin'))
+            @if(Auth::user()->hasRole('admin'))
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_home')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>HOME</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('admin_request_supplies')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_users')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>USERS</span></a>
@@ -66,25 +71,15 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>DEPARTMENT</span></a>
             </li>
-            @endif
+             @endif
 
-             @if(Auth::user()->hasRole('department'))
+           
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="{{route('department_request')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>REQUESTED</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{route('department_history')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>HISTORY</span></a>
-            </li>
-            @endif
+          
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -133,11 +128,9 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                    {{Auth::user()->first_name}} {{Auth::user()->last_name}}
-                                </span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{URL::to('img/undraw_profile.svg')}}">
+                                    src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -163,15 +156,15 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                   
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             @include('shared.notification')
                             @include('shared.validation')
-                            <h6 class="m-0 font-weight-bold text-primary">HISTORY LIST</h6>
-                            @if(Auth::user()->hasRole('admin'))
-                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newSupplyModal">ADD SUPPLY</button>
-                            @endif
+                            <h6 class="m-0 font-weight-bold text-primary">DEPARTMENT REQUEST LIST</h6>
+                            
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -184,9 +177,10 @@
                                             <th>Description</th>
                                             <th>Code</th>
                                             <th>Unit</th>
+                                            <th>Quantity</th>
                                             <th>Price</th>
                                             <th>QR CODE</th>
-                                            
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                    
@@ -199,9 +193,9 @@
                                                     @elseif($request->status_id == 1)
                                                         <span class="btn-success">APPROVED</span>
                                                     @elseif($request->status_id == 2)
-                                                        <span class="btn-primary">RECEIVED</span>
+                                                        <span class="btn-primary">RECEIVED</span> 
                                                     @elseif($request->status_id == 3)
-                                                        <span class="btn-secondary">RETURNED</span>        
+                                                        <span class="btn-secondary">RETURNED</span>       
                                                     @endif
                                                 </td>
                                                 <td>{{$request->supply->department->name}}</td>
@@ -209,9 +203,18 @@
                                                 <td>{{$request->supply->description}}</td>
                                                 <td>{{$request->supply->supply_code}}</td>
                                                 <td>{{$request->supply->unit->name}}</td>
+                                                <td>{{$request->quantity}}</td>
                                                 <td>{{$request->supply->price}}</td>
                                                 <td>{{$request->supply->qr_code}}</td>
-                                                
+                                                <td>
+                                                    @if($request->status_id == 0)
+                                                    <button class="btn btn-success btn-sm approve" data-toggle="modal" data-target="#approveRequest" value="{{$request->id}}">APPROVED</button>
+
+                                                    <button class="btn btn-danger cancel btn-sm" data-toggle="modal" data-target="#cancelRequest" value="{{$request->id}}">CANCEL</button>
+                                                    @endif
+
+
+                                                </td>
                                             </tr>
                                         @endforeach
                                         
@@ -268,9 +271,66 @@
         </div>
     </div>
 
-    
 
+ 
 
+    <div class="modal" id="approveRequest">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure you want to approve?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_approve_supplies')}}" method="POST">
+                @csrf
+                <input type="hidden" name="request_id" id="requestApprove">
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
+                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="cancelRequest">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure you want to cancel?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('admin_cancel_supplies')}}" method="POST">
+                @csrf
+                <input type="hidden" name="request_id" id="requestCancel">
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
+                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
@@ -291,30 +351,17 @@
     <script>
         $(document).ready(function(){
             var token = '{{Session::token()}}';
-            var findUserUrl = '{{route("admin_find_supplies")}}';
-            $(".delete").click(function(){
-                $("#deleteUser").val($(this).val());
+            var findUserUrl = '{{route("admin_find_user")}}';
+            $(".approve").click(function(){
+                $("#requestApprove").val($(this).val());
             });
-            $(".edit").click(function(){
-                var supply_id = $(this).val();
-                $("#supplyEdit").val(supply_id);
-                $.ajax({
-                   type:'POST',
-                   url:findUserUrl,
-                   data:{_token: token, supply_id: supply_id},
-                   success:function(data) {
-                     $("#supplyDescriptionFind").val(data.description);
-                     $("#supply_code_find").val(data.supply_code);
-                     $("#pricefind").val(data.price);
-                     $("#departmentFind").val(data.department_id);
-                     $("#categoryFind").val(data.category_id);
-                     $("#unit_idFind").val(data.unit_id);
-                   }
-                });
-
+            $(".cancel").click(function(){
+                $("#requestCancel").val($(this).val());
             });
+            
         });
     </script>
+
 </body>
 
 </html>

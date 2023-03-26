@@ -40,8 +40,18 @@ Route::group(['prefix'=> 'users'], function(){
     Route::post('/find-supplies', [AdminController::class, 'find_supplies'])->name('admin_find_supplies');
     Route::post('/update-supplies', [AdminController::class, 'update_supplies'])->name('admin_update_supplies');
 
+    //REQUEST ADMIN
+    Route::get('/request-supplies', [AdminController::class, 'request_supplies'])->name('admin_request_supplies');
+    Route::post('/approve-supplies', [AdminController::class, 'approve_supplies'])->name('admin_approve_supplies');
+    Route::post('/cancel-supplies', [AdminController::class, 'cancel_supplies'])->name('admin_cancel_supplies');
+
+
     //DEPARTMENT
     Route::get('/department-request', [DepartmentController::class, 'request'])->name('department_request');
+    Route::post('/department-request', [DepartmentController::class, 'request_check'])->name('department_request_check');
     Route::get('/department-history', [DepartmentController::class, 'history'])->name('department_history');
+
+    Route::post('/received-supply', [DepartmentController::class, 'received_supply'])->name('department_received_supply');
+    Route::post('/return-supply', [DepartmentController::class, 'return_supply'])->name('department_return_supply');
 
 });

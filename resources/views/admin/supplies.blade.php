@@ -56,6 +56,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>HOME</span></a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_request_supplies')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{route('admin_users')}}">
                     <i class="fas fa-fw fa-table"></i>
@@ -68,7 +73,7 @@
             </li>
             @endif
 
-             @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse'))
+             @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
@@ -186,6 +191,7 @@
                                             <th>Description</th>
                                             <th>Code</th>
                                             <th>Unit</th>
+                                            <th>Quanity</th>
                                             <th>Price</th>
                                             <th>QR CODe</th>
                                             <th>Action</th>
@@ -200,6 +206,7 @@
                                             <th>{{$supply->description}}</th>
                                             <th>{{$supply->supply_code}}</th>
                                             <th>{{$supply->unit->name}}</th>
+                                            <th>{{$supply->quantity}}</th>
                                             <th>P{{number_format((float)$supply->price, 2, '.', '')}}</th>
                                             <th>{{SimpleSoftwareIO\QrCode\Facades\QrCode::size(50)->generate($supply->qr_code)}}</th>
                                             <th>
@@ -213,7 +220,7 @@
                                                 @endif
 
                                                 @if(Auth::user()->hasRole('department'))
-                                                    <button class="btn btn-danger btn-circle btn-sm edit" value="{{$supply->id}}" data-toggle="modal" data-target="#">
+                                                    <button class="btn btn-danger btn-circle btn-sm order" value="{{$supply->id}}" data-toggle="modal" data-target="#requestSupply">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
                                                 @endif
@@ -328,6 +335,20 @@
                        </select>
                     </div>
 
+                    <div class="col-sm-6">
+                        <label>Sub Category</label>
+                       <select class="form-control form-control" name="sub_id" required>
+                           @foreach($categories as $cat)
+                                <option value="{{$cat->id}}">{{$cat->name}}</option>
+                           @endforeach
+                       </select>
+                    </div>
+
+                    
+                    
+                </div>
+
+                <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
                        <label>Select Unit</label>
                        <select class="form-control form-control" name="unit_id" required>
@@ -336,7 +357,11 @@
                            @endforeach
                        </select>
                     </div>
-                    
+
+                    <div class="col-sm-6 mb-3 mb-sm-0">
+                       <label>Enter Quantity</label>
+                       <input type="number" class="form-control" name="quantity">
+                    </div>
                 </div>
                 
                 <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
@@ -427,6 +452,39 @@
       </div>
     </div>
 
+    <div class="modal" id="requestSupply">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure for this supply?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="{{route('department_request_check')}}" method="POST">
+                @csrf
+                <input type="hidden" name="supply_id" id="supplyStock">
+                <div class="form-group">
+                    <label>Enter Quantity</label>
+                    <input type="number" name="quantity_order" class="form-control" required>
+                </div>
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
+                
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{URL::to('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -450,6 +508,11 @@
             $(".delete").click(function(){
                 $("#deleteUser").val($(this).val());
             });
+
+            $(".order").click(function(){
+                $("#supplyStock").val($(this).val());
+            });
+
             $(".edit").click(function(){
                 var supply_id = $(this).val();
                 $("#supplyEdit").val(supply_id);

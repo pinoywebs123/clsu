@@ -17,6 +17,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
+        //supplies status
+        // 0 - pending 
+        // 1 - approved
+        // 2 - receieved
+        // 3 - return
         
         $user = new User;
         $user->first_name   = 'Admin';    

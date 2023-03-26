@@ -19,11 +19,13 @@ return new class extends Migration
             $table->bigInteger('status_id')->index();
             $table->bigInteger('department_id')->index();
             $table->bigInteger('category_id')->index();
+            $table->bigInteger('sub_id')->index();
             $table->bigInteger('unit_id')->index();
             $table->text('description');
             $table->string('supply_code');
             $table->string('qr_code');
             $table->integer('price');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

@@ -8,7 +8,7 @@ use App\Models\Category;
 use App\Models\Department;
 use App\Models\Unit;
 use App\Models\Supply;
-
+use App\Models\RequestSupply;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -23,6 +23,12 @@ class AdminController extends Controller
     {
         $users = User::all();
         return view('admin.users',compact('users'));
+    }
+
+    public function request_supplies()
+    {
+        $requested_supplies = RequestSupply::orderBy('id','desc')->get();
+        return view('admin.requester',compact('requested_supplies'));
     }
 
     public function supplies()
@@ -46,10 +52,12 @@ class AdminController extends Controller
         $validated = $request->validate([
             'department_id'     => 'required',
             'category_id'       => 'required',
+            'sub_id'       => 'required',
             'unit_id'           => 'required',
             'description'       => 'required',
             'supply_code'       => 'required|unique:supplies',
             'price'             => 'required',
+            'quantity'             => 'required',
         ]);
 
         $validated['status_id'] = 1;
@@ -179,6 +187,36 @@ class AdminController extends Controller
                 'email'         => $request->email
             ]);
             return redirect()->back()->with('success','User Updated Successfully!');
+        }
+    }
+
+    public function approve_supplies(Request $request)
+    {
+
+           
+        $find = RequestSupply::where('id', $request->request_id)->first();
+        if($find)
+        {
+            $find_supply = Supply::find($find->supply_id);
+
+            if($find_supply->quantity < $find->quantity)
+            {
+               return redirect()->back()->with('success','Not Enough Supply');
+            }
+            $balance_stock = $find_supply->quantity - $find->quantity;
+            $find->update(['status_id'=> 1]);
+            $find_supply->update(['quantity'=> $balance_stock]);
+            return redirect()->back()->with('success','Approved Supply Successfully!');
+        }
+    }
+
+    public function cancel_supplies(Request $request)
+    {
+        $find = RequestSupply::where('id', $request->request_id)->first();
+        if($find)
+        {
+            $find->delete();
+            return redirect()->back()->with('success','Delete Supply Successfully!');
         }
     }
 }
