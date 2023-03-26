@@ -130,7 +130,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -276,6 +276,14 @@
                 <div class="form-group">
                     <input type="email" class="form-control form-control-user" id="exampleInputEmail"
                         placeholder="Email Address" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Select Department</label>
+                    <select class="form-control form-control" name="department_id" required>
+                        @foreach($departments as $dept)
+                            <option value="{{$dept->id}}">{{$dept->name}}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">

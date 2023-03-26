@@ -22,7 +22,8 @@ class AdminController extends Controller
     public function users()
     {
         $users = User::all();
-        return view('admin.users',compact('users'));
+        $departments = Department::all();
+        return view('admin.users',compact('users','departments'));
     }
 
     public function request_supplies()
@@ -39,7 +40,7 @@ class AdminController extends Controller
         if( Auth::user()->hasRole('admin') || Auth::user()->hasRole('warehouse'))
         {
             $supplies = Supply::all();
-        }else if( Auth::user()->hasRole('department') )
+        }elseif( Auth::user()->hasRole('department') )
         {
              $supplies = Supply::where('department_id',Auth::user()->department_id)->get();
         }
@@ -144,18 +145,21 @@ class AdminController extends Controller
     public function users_check(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|unique:users|max:255',
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'password' => 'required|max:12|min:6',
-            'repeat_password' => 'required|same:password',
+            'email'             => 'required|unique:users|max:255',
+            'first_name'        => 'required',
+            'last_name'         => 'required',
+            'password'          => 'required|max:12|min:6',
+            'repeat_password'   => 'required|same:password',
+            'department_id'     => 'required'
         ]);
 
         $validated['status_id'] = 1;
         $validated['password'] = bcrypt($validated['password']);
 
 
-        User::create($validated);
+        $user = User::create($validated);
+
+        $user->assignRole('department');
 
         return redirect()->back()->with('success','Registered Successfully!');
     }
