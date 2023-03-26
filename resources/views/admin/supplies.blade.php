@@ -81,6 +81,14 @@
             </li>
             @endif
 
+            @if( Auth::user()->hasRole('warehouse') )
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_scan_qr_code')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>QR CODE</span></a>
+            </li>
+            @endif
+
             @if(Auth::user()->hasRole('department'))
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('department_request')}}">

@@ -223,4 +223,15 @@ class AdminController extends Controller
             return redirect()->back()->with('success','Delete Supply Successfully!');
         }
     }
+
+    public function scan_qr_code()
+    {
+        return view('admin.qr_code');
+    }
+
+    public function scan_qr_code_check(Request $request)
+    {
+        $find = Supply::where('qr_code', $request->qr_code)->first();
+        return response()->json( $find );
+    }
 }

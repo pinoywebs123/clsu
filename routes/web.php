@@ -45,6 +45,10 @@ Route::group(['prefix'=> 'users'], function(){
     Route::post('/approve-supplies', [AdminController::class, 'approve_supplies'])->name('admin_approve_supplies');
     Route::post('/cancel-supplies', [AdminController::class, 'cancel_supplies'])->name('admin_cancel_supplies');
 
+    //WAREHOUSE 
+    Route::get('/scan-qr-code', [AdminController::class, 'scan_qr_code'])->name('admin_scan_qr_code');
+    Route::post('/scan-qr-code', [AdminController::class, 'scan_qr_code_check'])->name('admin_scan_qr_code_check');
+
 
     //DEPARTMENT
     Route::get('/department-request', [DepartmentController::class, 'request'])->name('department_request');
