@@ -40,6 +40,7 @@ Route::group(['prefix'=> 'users'], function(){
     Route::post('/supplies', [AdminController::class, 'supplies_check'])->name('admin_supplies_check');
     Route::post('/find-supplies', [AdminController::class, 'find_supplies'])->name('admin_find_supplies');
     Route::post('/update-supplies', [AdminController::class, 'update_supplies'])->name('admin_update_supplies');
+    Route::get('/print-supplies/{id}', [AdminController::class, 'print_supplies'])->name('admin_print_supplies');
 
     //REQUEST ADMIN
     Route::get('/request-supplies', [AdminController::class, 'request_supplies'])->name('admin_request_supplies');

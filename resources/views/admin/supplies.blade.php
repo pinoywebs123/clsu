@@ -227,6 +227,10 @@
                                                 <button class="btn btn-danger btn-circle btn-sm restock" value="{{$supply->id}}" data-toggle="modal" data-target="#requestSupply">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
+                                               
+                                                <a href="{{route('admin_print_supplies',$supply->id)}}" class="btn btn-primary btn-circle btn-sm print">
+                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                </a>
                                                 @endif
 
                                                 
@@ -490,6 +494,38 @@
       </div>
     </div>
 
+     <div class="modal" id="printQr">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Do you want to Print?</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <form class="user" action="#" method="POST">
+                @csrf
+                <input type="hidden" name="supply_id" id="supplyQr">
+                <div class="form-group" id="qrCodeAppend">
+                    <h2 class="text-center">QR CODE HERE</h2>
+                </div>
+                
+                
+                <hr>
+                
+            </form>
+
+          </div>
+
+         
+
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{URL::to('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -511,6 +547,7 @@
             var token = '{{Session::token()}}';
             var findUserUrl = '{{route("admin_find_supplies")}}';
             var findCategory = '{{route("admin_find_category")}}';
+
             $(".delete").click(function(){
                 $("#deleteUser").val($(this).val());
             });
@@ -533,6 +570,8 @@
                    }
                 });
             });
+
+           
 
             $(".edit").click(function(){
                 var supply_id = $(this).val();

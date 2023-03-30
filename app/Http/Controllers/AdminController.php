@@ -12,6 +12,9 @@ use App\Models\Supply;
 use App\Models\RequestSupply;
 use App\Models\NewStock;
 use Illuminate\Support\Facades\Auth;
+use Dompdf\Dompdf;
+use PDF;
+use QrCode;
 
 class AdminController extends Controller
 {
@@ -259,5 +262,22 @@ class AdminController extends Controller
     {
         $subs = Sub::where('category_id', $request->category_id)->get();
         return response()->json($subs);
+    }
+
+    public function print_supplies($id)
+    {
+        $find = Supply::find($id);
+        // $length = 10;    
+        // $ran = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$length);
+
+        //QrCode::generate($find->supply_code, public_path('qr/'.$ran.'.png'));
+
+       
+        // $dompdf = new Dompdf();
+        // $pdf = PDF::loadView('reports.qr_code', compact('find','ran'));
+        // return $pdf->stream($find->id.'-file'.'.pdf');
+
+
+        return view('reports.qr_code',compact('find'));
     }
 }
