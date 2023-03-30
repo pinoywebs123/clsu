@@ -73,13 +73,7 @@
             </li>
             @endif
 
-             @if( Auth::user()->hasRole('warehouse') )
-                 <li class="nav-item ">
-                    <a class="nav-link" href="{{route('admin_request_supplies')}}">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>REQUESTED</span></a>
-                </li>
-             @endif   
+            
              @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
 
             <li class="nav-item active">

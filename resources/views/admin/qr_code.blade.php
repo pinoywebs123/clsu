@@ -22,7 +22,31 @@
 
     <!-- Custom styles for this page -->
     <link href="{{URL::to('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    <style>
+        h1 {
+          text-align: center;
+        }
 
+        #reader {
+          width: 500px;
+        }
+
+        .result {
+          background-color: grey;
+          color: #fff;
+          padding: 20px;
+        }
+
+        .row {
+          display: flex;
+        }
+
+        #reader__scan_region {
+          background: white;
+        }
+
+    </style>
 </head>
 
 <body id="page-top">
@@ -74,11 +98,7 @@
             @endif
 
              @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
-             <li class="nav-item ">
-                <a class="nav-link" href="{{route('admin_request_supplies')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>REQUESTED</span></a>
-            </li>
+             
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
@@ -196,11 +216,22 @@
                             <div class="table-responsive">
                                 <div class="container-fluid">
                                     <div class="col-6 offset-3">
-                                        
-                                            <h3 class="text-center">Scan QR CODE HERE</h3>
-                                            <div class="form-group">
-                                                <input type="text" name="qr_code" class="form-control" id="qr_code_scanner" autofocus>
+                                        <h1>QR Code Reader using Javascript</h1>
+
+                                            <!-- QR SCANNER CODE BELOW  -->
+                                            <div class="row">
+                                              <div class="col">
+                                                <div id="reader"></div>
+                                              </div>
+                                              <div class="col" style="padding: 30px">
+                                                <h4>Scan Result </h4>
+                                                <div id="result">
+                                                  Result goes here
+                                                </div>
+                                              </div>
+
                                             </div>
+                                           
                                         
                                     </div>
                                 </div>
@@ -273,8 +304,31 @@
 
     <!-- Page level custom scripts -->
     <script src="{{URL::to('js/demo/datatables-demo.js')}}"></script>
+
     <script>
         $(document).ready(function(){
+            // When scan is successful fucntion will produce data
+            function onScanSuccess(qrCodeMessage) {
+              document.getElementById("result").innerHTML =
+                '<span class="result">' + qrCodeMessage + "</span>";
+                console.log(qrCodeMessage);
+            }
+
+            // When scan is unsuccessful fucntion will produce error message
+            function onScanError(errorMessage) {
+              // Handle Scan Error
+            }
+
+            // Setting up Qr Scanner properties
+            var html5QrCodeScanner = new Html5QrcodeScanner("reader", {
+              fps: 10,
+              qrbox: 250
+            });
+
+            // in
+            html5QrCodeScanner.render(onScanSuccess, onScanError);
+
+
             var token = '{{Session::token()}}';
             var findUserUrl = '{{route("admin_scan_qr_code_check")}}';
             
