@@ -73,7 +73,15 @@
             </li>
             @endif
 
+             @if( Auth::user()->hasRole('warehouse') )
+                 <li class="nav-item ">
+                    <a class="nav-link" href="{{route('admin_request_supplies')}}">
+                        <i class="fas fa-fw fa-table"></i>
+                        <span>REQUESTED</span></a>
+                </li>
+             @endif   
              @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
+
             <li class="nav-item active">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
@@ -222,16 +230,12 @@
                                                 <button class="btn btn-info btn-circle btn-sm edit" value="{{$supply->id}}" data-toggle="modal" data-target="#editSupplyModal">
                                                     <i class="fas fa-info-circle"></i>
                                                 </button>
-                                                <button class="btn btn-danger btn-circle btn-sm delete" value="{{$supply->id}}" data-toggle="modal" data-target="#addStockSupplyModal">
+                                                <button class="btn btn-danger btn-circle btn-sm restock" value="{{$supply->id}}" data-toggle="modal" data-target="#requestSupply">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
                                                 @endif
 
-                                                @if(Auth::user()->hasRole('department'))
-                                                    <button class="btn btn-danger btn-circle btn-sm order" value="{{$supply->id}}" data-toggle="modal" data-target="#requestSupply">
-                                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                                </button>
-                                                @endif
+                                                
                                                 
                                             </th>
                                         </tr>
@@ -336,7 +340,8 @@
 
                     <div class="col-sm-6">
                         <label>Select Category</label>
-                       <select class="form-control form-control" name="category_id" required>
+                       <select class="form-control form-control" name="category_id" required id="category">
+                            <option></option>
                            @foreach($categories as $cat)
                                 <option value="{{$cat->id}}">{{$cat->name}}</option>
                            @endforeach
@@ -345,10 +350,8 @@
 
                     <div class="col-sm-6">
                         <label>Sub Category</label>
-                       <select class="form-control form-control" name="sub_id" required>
-                           @foreach($categories as $cat)
-                                <option value="{{$cat->id}}">{{$cat->name}}</option>
-                           @endforeach
+                       <select class="form-control form-control" name="sub_id" required id="sub_category">
+                           
                        </select>
                     </div>
 
@@ -466,13 +469,13 @@
 
           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Are you sure for this supply?</h4>
+            <h4 class="modal-title">Update Supply Stock?</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form class="user" action="{{route('department_request_check')}}" method="POST">
+            <form class="user" action="{{route('admin_restock_supplies')}}" method="POST">
                 @csrf
                 <input type="hidden" name="supply_id" id="supplyStock">
                 <div class="form-group">
@@ -513,12 +516,28 @@
         $(document).ready(function(){
             var token = '{{Session::token()}}';
             var findUserUrl = '{{route("admin_find_supplies")}}';
+            var findCategory = '{{route("admin_find_category")}}';
             $(".delete").click(function(){
                 $("#deleteUser").val($(this).val());
             });
 
-            $(".order").click(function(){
+            $(".restock").click(function(){
                 $("#supplyStock").val($(this).val());
+            });
+
+            $("#category").change(function(){
+                var category_id = $(this).val();
+                $.ajax({
+                   type:'POST',
+                   url:findCategory,
+                   data:{_token: token, category_id: category_id},
+                   success:function(data) {
+                     $( "#sub_category" ).empty();
+                    data.forEach(function( sub ) {
+                      $( "#sub_category" ).append( "<option value="+sub.id+">"+sub.name+"</option>" );
+                    });
+                   }
+                });
             });
 
             $(".edit").click(function(){

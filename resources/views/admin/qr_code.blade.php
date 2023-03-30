@@ -74,6 +74,11 @@
             @endif
 
              @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
+             <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_request_supplies')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
@@ -191,12 +196,12 @@
                             <div class="table-responsive">
                                 <div class="container-fluid">
                                     <div class="col-6 offset-3">
-                                        <form>
+                                        
                                             <h3 class="text-center">Scan QR CODE HERE</h3>
                                             <div class="form-group">
                                                 <input type="text" name="qr_code" class="form-control" id="qr_code_scanner" autofocus>
                                             </div>
-                                        </form>
+                                        
                                     </div>
                                 </div>
                             </div>

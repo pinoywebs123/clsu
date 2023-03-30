@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Sub;
 use App\Models\Department;
 use App\Models\Unit;
 use App\Models\Supply;
 use App\Models\RequestSupply;
+use App\Models\NewStock;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
@@ -37,6 +39,7 @@ class AdminController extends Controller
         $categories = Category::all();
         $units = Unit::all();
         $departments = Department::all();
+        $subs = Sub::all();
         if( Auth::user()->hasRole('admin') || Auth::user()->hasRole('warehouse'))
         {
             $supplies = Supply::all();
@@ -45,7 +48,7 @@ class AdminController extends Controller
              $supplies = Supply::where('department_id',Auth::user()->department_id)->get();
         }
         
-        return view('admin.supplies',compact('categories','supplies','departments','units'));
+        return view('admin.supplies',compact('categories','supplies','departments','units','subs'));
     }
 
     public function supplies_check(Request $request)
@@ -233,5 +236,28 @@ class AdminController extends Controller
     {
         $find = Supply::where('qr_code', $request->qr_code)->first();
         return response()->json( $find );
+    }
+
+    public function restock_supplies(Request $request)
+    {
+         $find = Supply::where('id', $request->supply_id)->first();
+         if($find)
+         {
+            $find->update(['quantity'=> $find->quantity + $request->quantity_order]);
+            $new_stock =  new NewStock;
+            $new_stock->supply_id = $find->id;
+            $new_stock->user_id = Auth::id();
+            $new_stock->quantity = $request->quantity_order;
+            $new_stock->save();
+            return redirect()->back()->with('success','Supply Stock Updated Successfully!');
+
+         }
+        
+    }
+
+    public function find_category(Request $request)
+    {
+        $subs = Sub::where('category_id', $request->category_id)->get();
+        return response()->json($subs);
     }
 }

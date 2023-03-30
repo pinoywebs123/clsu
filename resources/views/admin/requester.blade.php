@@ -74,11 +74,27 @@
              @endif
 
            
+            @if(Auth::user()->hasRole('warehouse') )
+             <li class="nav-item active">
+                <a class="nav-link" href="{{route('admin_request_supplies')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
+            @endif
+
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
+
+             @if( Auth::user()->hasRole('warehouse') )
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_scan_qr_code')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>QR CODE</span></a>
+            </li>
+            @endif
           
 
             <!-- Divider -->

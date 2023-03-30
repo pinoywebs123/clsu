@@ -26,6 +26,7 @@ Route::group(['prefix'=> 'users'], function(){
     Route::post('/delete-users', [AdminController::class, 'delete_user'])->name('admin_delete_user');
     Route::post('/find-user', [AdminController::class, 'find_user'])->name('admin_find_user');
     Route::post('/update-user', [AdminController::class, 'update_user'])->name('admin_update_user');
+    Route::post('/find-category', [AdminController::class, 'find_category'])->name('admin_find_category');
 
 
     Route::get('/departments', [AdminController::class, 'departments'])->name('admin_departments');
@@ -44,6 +45,7 @@ Route::group(['prefix'=> 'users'], function(){
     Route::get('/request-supplies', [AdminController::class, 'request_supplies'])->name('admin_request_supplies');
     Route::post('/approve-supplies', [AdminController::class, 'approve_supplies'])->name('admin_approve_supplies');
     Route::post('/cancel-supplies', [AdminController::class, 'cancel_supplies'])->name('admin_cancel_supplies');
+    Route::post('/restock-supplies', [AdminController::class, 'restock_supplies'])->name('admin_restock_supplies');
 
     //WAREHOUSE 
     Route::get('/scan-qr-code', [AdminController::class, 'scan_qr_code'])->name('admin_scan_qr_code');
