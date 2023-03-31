@@ -307,11 +307,24 @@
 
     <script>
         $(document).ready(function(){
+            var url = '{{route('admin_scan_qr_code_check')}}';
+            var token = '{{Session::token()}}';
             // When scan is successful fucntion will produce data
             function onScanSuccess(qrCodeMessage) {
+                
+
               document.getElementById("result").innerHTML =
                 '<span class="result">' + qrCodeMessage + "</span>";
                 console.log(qrCodeMessage);
+
+               $.ajax({
+                   type:'POST',
+                   url:url,
+                   data:{_token: token, qr_code: qrCodeMessage},
+                   success:function(data) {
+                     console.log(data);
+                   }
+                });    
             }
 
             // When scan is unsuccessful fucntion will produce error message

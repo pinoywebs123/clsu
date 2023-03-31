@@ -237,8 +237,10 @@ class AdminController extends Controller
 
     public function scan_qr_code_check(Request $request)
     {
-        $find = Supply::where('qr_code', $request->qr_code)->first();
-        return response()->json( $find );
+        $qr_scans = Supply::where('supply_code', $request->qr_code)
+                ->join('request_supplies', 'supplies.id', '=', 'request_supplies.supply_id')
+                ->get();
+        return response()->json( $qr_scans );
     }
 
     public function restock_supplies(Request $request)
