@@ -49,14 +49,14 @@
             <hr class="sidebar-divider">
 
            
-            @if(Auth::user()->hasRole('admin'))
+
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_home')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>HOME</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_request_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>REQUESTED</span></a>
@@ -66,36 +66,22 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>USERS</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_departments')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>OFFICE</span></a>
             </li>
-             @endif
-
-           
-            @if(Auth::user()->hasRole('warehouse') )
-             <li class="nav-item active">
-                <a class="nav-link" href="{{route('admin_request_supplies')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>REQUESTED</span></a>
-            </li>
-            @endif
-
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
 
-             @if( Auth::user()->hasRole('warehouse') )
-            <li class="nav-item ">
-                <a class="nav-link" href="{{route('admin_scan_qr_code')}}">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('admin_forms')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>QR CODE</span></a>
+                    <span>FORMS</span></a>
             </li>
-            @endif
-          
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -144,7 +130,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
                                 <img class="img-profile rounded-circle"
                                     src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
@@ -179,61 +165,46 @@
                         <div class="card-header py-3">
                             @include('shared.notification')
                             @include('shared.validation')
-                            <h6 class="m-0 font-weight-bold text-primary">DEPARTMENT REQUEST LIST</h6>
-                            
+                            <h6 class="m-0 font-weight-bold text-primary">FORM LIST</h6>
+                           
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>STATUS</th>
-                                            <th>Office</th>
-                                            <th>Category</th>
-                                            <th>Description</th>
-                                            <th>Code</th>
-                                            <th>Unit</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                            <th>QR CODE</th>
+                                            <th>Name</th>
+                                            
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                   
+                                    
                                     <tbody>
-                                        @foreach($requested_supplies as $request)
-                                            <tr>
-                                                <td>
-                                                    @if($request->status_id == 0)
-                                                        <span class="btn-warning">PENDING APPROVAL</span>
-                                                    @elseif($request->status_id == 1)
-                                                        <span class="btn-success">APPROVED</span>
-                                                    @elseif($request->status_id == 2)
-                                                        <span class="btn-primary">RECEIVED</span> 
-                                                    @elseif($request->status_id == 3)
-                                                        <span class="btn-secondary">RETURNED</span>       
-                                                    @endif
-                                                </td>
-                                                <td>{{$request->supply->department->name}}</td>
-                                                <td>{{$request->supply->category->name}}</td>
-                                                <td>{{$request->supply->description}}</td>
-                                                <td>{{$request->supply->supply_code}}</td>
-                                                <td>{{$request->supply->unit->name}}</td>
-                                                <td>{{$request->quantity}}</td>
-                                                <td>{{$request->supply->price}}</td>
-                                                <td>{{$request->supply->qr_code}}</td>
-                                                <td>
-                                                    @if($request->status_id == 0)
-                                                    <button class="btn btn-success btn-sm approve" data-toggle="modal" data-target="#approveRequest" value="{{$request->id}}">APPROVED</button>
-
-                                                    <button class="btn btn-danger cancel btn-sm" data-toggle="modal" data-target="#cancelRequest" value="{{$request->id}}">CANCEL</button>
-                                                    @endif
-
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        
+                                      
+                                        <tr>
+                                           <td>IAR</td>
+                                           <td>
+                                                <a href="{{route('admin_print_forms','iar')}}" class="btn btn-primary btn-circle btn-sm print">
+                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                </a>
+                                           </td>
+                                       </tr>
+                                        <tr>
+                                           <td>PO</td>
+                                           <td>
+                                               <a href="{{route('admin_print_forms','po')}}" class="btn btn-primary btn-circle btn-sm print">
+                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                </a>
+                                           </td>
+                                       </tr>
+                                        <tr>
+                                           <td>RIS</td>
+                                           <td>
+                                              <a href="{{route('admin_print_forms','ris')}}" class="btn btn-primary btn-circle btn-sm print">
+                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                </a>
+                                           </td>
+                                       </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -287,66 +258,10 @@
         </div>
     </div>
 
+   
 
- 
+  
 
-    <div class="modal" id="approveRequest">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Are you sure you want to approve?</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form class="user" action="{{route('admin_approve_supplies')}}" method="POST">
-                @csrf
-                <input type="hidden" name="request_id" id="requestApprove">
-                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
-                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
-                <hr>
-                
-            </form>
-
-          </div>
-
-         
-
-        </div>
-      </div>
-    </div>
-
-    <div class="modal" id="cancelRequest">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-            <h4 class="modal-title">Are you sure you want to cancel?</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <form class="user" action="{{route('admin_cancel_supplies')}}" method="POST">
-                @csrf
-                <input type="hidden" name="request_id" id="requestCancel">
-                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
-                <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
-                <hr>
-                
-            </form>
-
-          </div>
-
-         
-
-        </div>
-      </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
@@ -367,17 +282,25 @@
     <script>
         $(document).ready(function(){
             var token = '{{Session::token()}}';
-            var findUserUrl = '{{route("admin_find_user")}}';
-            $(".approve").click(function(){
-                $("#requestApprove").val($(this).val());
+            var findUserUrl = '{{route("admin_find_department")}}';
+            $(".delete").click(function(){
+                $("#deleteDepartment").val($(this).val());
             });
-            $(".cancel").click(function(){
-                $("#requestCancel").val($(this).val());
+            $(".edit").click(function(){
+                var department_id = $(this).val();
+                $("#editDepartment").val(department_id);
+                $.ajax({
+                   type:'POST',
+                   url:findUserUrl,
+                   data:{_token: token, department_id: department_id},
+                   success:function(data) {
+                     $("#editDepartmentInput").val(data.name);
+                   }
+                });
+
             });
-            
         });
     </script>
-
 </body>
 
 </html>

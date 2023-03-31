@@ -28,6 +28,10 @@ Route::group(['prefix'=> 'users'], function(){
     Route::post('/update-user', [AdminController::class, 'update_user'])->name('admin_update_user');
     Route::post('/find-category', [AdminController::class, 'find_category'])->name('admin_find_category');
 
+    //FORMS
+    Route::get('/forms', [AdminController::class, 'forms'])->name('admin_forms');
+    Route::get('/print-forms/{form}', [AdminController::class, 'print_forms'])->name('admin_print_forms');
+
 
     Route::get('/departments', [AdminController::class, 'departments'])->name('admin_departments');
     Route::post('/departments', [AdminController::class, 'departments_check'])->name('admin_departments_check');

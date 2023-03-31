@@ -69,7 +69,7 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{route('admin_departments')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>DEPARTMENT</span></a>
+                    <span>OFFICE</span></a>
             </li>
             @endif
 
@@ -196,7 +196,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Department</th>
+                                            <th>Office</th>
                                             <th>Category</th>
                                             <th>Description</th>
                                             <th>Code</th>

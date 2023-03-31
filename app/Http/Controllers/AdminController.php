@@ -267,17 +267,20 @@ class AdminController extends Controller
     public function print_supplies($id)
     {
         $find = Supply::find($id);
-        // $length = 10;    
-        // $ran = substr(str_shuffle('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'),1,$length);
-
-        //QrCode::generate($find->supply_code, public_path('qr/'.$ran.'.png'));
-
-       
-        // $dompdf = new Dompdf();
-        // $pdf = PDF::loadView('reports.qr_code', compact('find','ran'));
-        // return $pdf->stream($find->id.'-file'.'.pdf');
-
 
         return view('reports.qr_code',compact('find'));
+    }
+
+    public function forms()
+    {
+      return view('admin.forms');  
+    }
+
+    public function print_forms($form)
+    {
+        // $pdf = PDF::loadView('reports.iar');
+        // return $pdf->stream('iar.pdf');
+
+        return view('reports.'.$form);
     }
 }
