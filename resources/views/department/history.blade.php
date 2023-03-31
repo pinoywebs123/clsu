@@ -185,7 +185,7 @@
                                             <th>Code</th>
                                             <th>Unit</th>
                                             <th>Price</th>
-                                            <th>QR CODE</th>
+                                            
                                             
                                         </tr>
                                     </thead>
@@ -210,7 +210,7 @@
                                                 <td>{{$request->supply->supply_code}}</td>
                                                 <td>{{$request->supply->unit->name}}</td>
                                                 <td>{{$request->supply->price}}</td>
-                                                <td>{{$request->supply->qr_code}}</td>
+                                                
                                                 
                                             </tr>
                                         @endforeach

@@ -164,8 +164,8 @@
                         <div class="card-header py-3">
                             @include('shared.notification')
                             @include('shared.validation')
-                            <h6 class="m-0 font-weight-bold text-primary">DEPARTMENT LIST</h6>
-                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newDepartmentModal">ADD DEPARTMENT</button>
+                            <h6 class="m-0 font-weight-bold text-primary">OFFICE LIST</h6>
+                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newDepartmentModal">ADD OFFICE</button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

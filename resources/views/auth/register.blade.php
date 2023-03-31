@@ -55,7 +55,7 @@
                                         placeholder="Email Address" name="email" required>
                                 </div>
                                 <div class="form-group">
-                                    <label>Select Department</label>
+                                    <label>Select Office</label>
                                     <select class="form-control form-control" name="department_id" required>
                                         @foreach($departments as $dept)
                                             <option value="{{$dept->id}}">{{$dept->name}}</option>
