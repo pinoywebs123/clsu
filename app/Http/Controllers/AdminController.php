@@ -18,7 +18,7 @@ use QrCode;
 
 class AdminController extends Controller
 {
-    
+
     public function home()
     {
         return view('admin.home');
@@ -50,7 +50,7 @@ class AdminController extends Controller
         {
              $supplies = Supply::where('department_id',Auth::user()->department_id)->get();
         }
-        
+
         return view('admin.supplies',compact('categories','supplies','departments','units','subs'));
     }
 
@@ -142,7 +142,7 @@ class AdminController extends Controller
         {
             $find->update([
                 'name'    => $request->name,
-                
+
             ]);
             return redirect()->back()->with('success','Department Updated Successfully!');
         }
@@ -203,7 +203,7 @@ class AdminController extends Controller
     public function approve_supplies(Request $request)
     {
 
-           
+
         $find = RequestSupply::where('id', $request->request_id)->first();
         if($find)
         {
@@ -240,6 +240,8 @@ class AdminController extends Controller
         $qr_scans = Supply::where('supply_code', $request->qr_code)
                 ->join('request_supplies', 'supplies.id', '=', 'request_supplies.supply_id')
                 ->join('users','request_supplies.requester_id','users.id')
+                ->join('departments','departments.id','supplies.department_id')
+                ->select('request_supplies.status_id', 'request_supplies.quantity', 'users.first_name', 'users.last_name', 'departments.name as dept_name')
                 ->get();
         return response()->json( $qr_scans );
     }
@@ -258,7 +260,7 @@ class AdminController extends Controller
             return redirect()->back()->with('success','Supply Stock Updated Successfully!');
 
          }
-        
+
     }
 
     public function find_category(Request $request)
@@ -276,7 +278,7 @@ class AdminController extends Controller
 
     public function forms()
     {
-      return view('admin.forms');  
+      return view('admin.forms');
     }
 
     public function print_forms($form)
