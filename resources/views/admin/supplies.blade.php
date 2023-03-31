@@ -83,6 +83,14 @@
             </li>
             @endif
 
+            @if( Auth::user()->hasRole('admin') )
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_forms')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>FORMS</span></a>
+            </li>
+            @endif
+
             @if( Auth::user()->hasRole('warehouse') )
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_scan_qr_code')}}">
@@ -232,6 +240,12 @@
                                                     <i class="fa fa-print" aria-hidden="true"></i>
                                                 </a>
                                                 @endif
+
+                                                 @if(Auth::user()->hasRole('department'))
+                                                <button class="btn btn-danger btn-circle btn-sm order" value="{{$supply->id}}" data-toggle="modal" data-target="#supplyRequestOrder">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                                 @endif
 
                                                 
                                                 
@@ -494,25 +508,26 @@
       </div>
     </div>
 
-     <div class="modal" id="printQr">
+     <div class="modal" id="supplyRequestOrder">
       <div class="modal-dialog">
         <div class="modal-content">
 
           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Do you want to Print?</h4>
+            <h4 class="modal-title">Request Supply?</h4>
             <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form class="user" action="#" method="POST">
+            <form class="user" action="{{route('department_request_check')}}" method="POST">
                 @csrf
-                <input type="hidden" name="supply_id" id="supplyQr">
-                <div class="form-group" id="qrCodeAppend">
-                    <h2 class="text-center">QR CODE HERE</h2>
+                <input type="hidden" name="supply_id" id="supplyStockOrder">
+                <div class="form-group">
+                    <label>Enter Quantity</label>
+                    <input type="number" name="quantity_order" class="form-control" required>
                 </div>
-                
+                <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
                 
                 <hr>
                 
@@ -554,6 +569,10 @@
 
             $(".restock").click(function(){
                 $("#supplyStock").val($(this).val());
+            });
+
+            $(".order").click(function(){
+                $("#supplyStockOrder").val($(this).val());
             });
 
             $("#category").change(function(){

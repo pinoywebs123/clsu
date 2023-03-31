@@ -79,6 +79,13 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
+            @if( Auth::user()->hasRole('admin') )
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_forms')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>FORMS</span></a>
+            </li>
+            @endif
           
 
             <!-- Divider -->
