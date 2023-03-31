@@ -42,10 +42,22 @@
           display: flex;
         }
 
+        #reader {
+            width: auto !important;
+        }
+
         #reader__scan_region {
           background: white;
         }
 
+        table {
+            font-size: .8em;
+            width: 100%;
+        }
+
+        video {
+            width: 100% !important;
+        }
     </style>
 </head>
 
@@ -68,11 +80,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-           
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-           
+
              @if(Auth::user()->hasRole('admin'))
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
@@ -98,7 +110,7 @@
             @endif
 
              @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
-             
+
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
@@ -155,18 +167,18 @@
                     </form>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                       
+
 
                         <!-- Nav Item - Alerts -->
-                        
+
 
                         <!-- Nav Item - Messages -->
-                    
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -183,7 +195,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                
+
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
@@ -210,29 +222,24 @@
                             @include('shared.notification')
                             @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">SCAN QR CODE</h6>
-                           
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <div class="container-fluid">
-                                    <div class="col-6 offset-3">
-                                        <h1>QR Code Reader using Javascript</h1>
-
-                                            <!-- QR SCANNER CODE BELOW  -->
-                                            <div class="row">
-                                              <div class="col">
-                                                <div id="reader"></div>
-                                              </div>
-                                              <div class="col" style="padding: 30px">
-                                                <h4>Scan Result </h4>
-                                                <div id="result">
-                                                  Result goes here
-                                                </div>
-                                              </div>
-
+                                    <div class="row">
+                                        <h1 class="col-12">QR Code Reader using Javascript</h1>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6">
+                                            <div id="reader"></div>
+                                        </div>
+                                        <div class="col-12 col-lg-6" style="padding: 5px">
+                                            <h4>Scan Result </h4>
+                                            <div id="result">
+                                                Result goes here
                                             </div>
-                                           
-                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -286,7 +293,7 @@
         </div>
     </div>
 
-   
+
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
@@ -310,21 +317,72 @@
             var url = '{{route('admin_scan_qr_code_check')}}';
             var token = '{{Session::token()}}';
             // When scan is successful fucntion will produce data
-            function onScanSuccess(qrCodeMessage) {
-                
 
-              document.getElementById("result").innerHTML =
-                '<span class="result">' + qrCodeMessage + "</span>";
-                console.log(qrCodeMessage);
+            let table = document.createElement('table');
+            let tr = document.createElement('tr');
+            let th = document.createElement('th');
 
-               $.ajax({
-                   type:'POST',
-                   url:url,
-                   data:{_token: token, qr_code: qrCodeMessage},
-                   success:function(data) {
-                     console.log(data);
-                   }
-                });    
+            th.appendChild(document.createTextNode('Status'));
+            tr.appendChild(th);
+
+            th = document.createElement('th');
+            th.appendChild(document.createTextNode('Quantity'));
+            tr.appendChild(th);
+
+            th = document.createElement('th');
+            th.appendChild(document.createTextNode('Name of Requester'));
+            tr.appendChild(th);
+
+            th = document.createElement('th');
+            th.appendChild(document.createTextNode('Office requested'));
+            tr.appendChild(th);
+
+            function onScanSuccess(qrCodeMessage,) {
+                table.innerHTML = '';
+                table.appendChild(tr);
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {_token: token, qr_code: qrCodeMessage},
+                    success: function (data) {
+                        data.map(row => {
+                            let tr = document.createElement('tr');
+
+                            let td = document.createElement('td');
+
+                            let status = '';
+
+                            switch(row.status_id) {
+                                case 0: status = 'Pending'; break;
+                                case 1: status = 'Approved'; break;
+                                case 2: status = 'Received'; break;
+                                case 3: status = 'Returned'; break;
+                                default: status = 'Unknown';
+                            }
+
+                            td.appendChild(document.createTextNode(status));
+                            tr.appendChild(td);
+
+                            td = document.createElement('td');
+                            td.appendChild(document.createTextNode(row.quantity));
+                            tr.appendChild(td);
+
+                            td = document.createElement('td');
+                            td.appendChild(document.createTextNode(row.first_name + ' ' + row.last_name));
+                            tr.appendChild(td);
+
+                            td = document.createElement('td');
+                            td.appendChild(document.createTextNode(row.dept_name));
+                            tr.appendChild(td);
+
+                            table.appendChild(tr);
+                        })
+                    }
+                });
+
+                document.getElementById("result").innerHTML = '';
+                document.getElementById("result").appendChild(table);
             }
 
             // When scan is unsuccessful fucntion will produce error message
@@ -344,19 +402,44 @@
 
             var token = '{{Session::token()}}';
             var findUserUrl = '{{route("admin_scan_qr_code_check")}}';
-            
-            $("#qr_code_scanner").change(function(){
+
+            $("#qr_code_scanner").change(function(tr){
+                table.innerHTML = '';
+                table.appendChild(tr);
+
                 var qr_code = $(this).val();
-               
+
                 $.ajax({
                    type:'POST',
                    url:findUserUrl,
                    data:{_token: token, qr_code: qr_code},
                    success:function(data) {
-                     alert(JSON.stringify(data));
+                       data.map(row => {
+                           let tr = document.createElement('tr');
+
+                           let td = document.createElement('td');
+                           td.appendChild(document.createTextNode(row.status_id));
+                           tr.appendChild(td);
+
+                           td = document.createElement('td');
+                           td.appendChild(document.createTextNode(row.quantity));
+                           tr.appendChild(td);
+
+                           td = document.createElement('td');
+                           td.appendChild(document.createTextNode(row.first_name + ' ' + row.last_name));
+                           tr.appendChild(td);
+
+                           td = document.createElement('td');
+                           td.appendChild(document.createTextNode(row.dept_name));
+                           tr.appendChild(td);
+
+                           table.appendChild(tr);
+                       })
                    }
                 });
 
+                document.getElementById("result").innerHTML = '';
+                document.getElementById("result").appendChild(table);
             });
         });
     </script>
