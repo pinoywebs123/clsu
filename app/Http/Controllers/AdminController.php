@@ -239,6 +239,7 @@ class AdminController extends Controller
     {
         $qr_scans = Supply::where('supply_code', $request->qr_code)
                 ->join('request_supplies', 'supplies.id', '=', 'request_supplies.supply_id')
+                ->join('users','request_supplies.requester_id','users.id')
                 ->get();
         return response()->json( $qr_scans );
     }

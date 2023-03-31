@@ -383,7 +383,7 @@
 
                     <div class="col-sm-6 mb-3 mb-sm-0">
                        <label>Enter Quantity</label>
-                       <input type="number" class="form-control" name="quantity">
+                       <input type="number" class="form-control" name="quantity" required>
                     </div>
                 </div>
                 
