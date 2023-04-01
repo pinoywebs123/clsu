@@ -241,7 +241,7 @@ class AdminController extends Controller
                 ->join('request_supplies', 'supplies.id', '=', 'request_supplies.supply_id')
                 ->join('users','request_supplies.requester_id','users.id')
                 ->join('departments','departments.id','supplies.department_id')
-                ->select('request_supplies.status_id', 'request_supplies.quantity', 'users.first_name', 'users.last_name', 'departments.name as dept_name')
+                ->select('supplies.supply_code', 'supplies.description', 'request_supplies.status_id', 'request_supplies.quantity', 'users.first_name', 'users.last_name', 'departments.name as dept_name')
                 ->get();
         return response()->json( $qr_scans );
     }
