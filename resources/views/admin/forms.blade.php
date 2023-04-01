@@ -44,11 +44,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-           
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-           
+
 
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
@@ -111,18 +111,18 @@
                     </form>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                       
+
 
                         <!-- Nav Item - Alerts -->
-                        
+
 
                         <!-- Nav Item - Messages -->
-                    
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -137,7 +137,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                
+
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
@@ -158,7 +158,7 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                   
+
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -166,7 +166,7 @@
                             @include('shared.notification')
                             @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">FORM LIST</h6>
-                           
+
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -174,13 +174,13 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            
+
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody>
-                                      
+
                                         <tr>
                                            <td>IAR</td>
                                            <td>
@@ -205,6 +205,30 @@
                                                 </a>
                                            </td>
                                        </tr>
+                                        <tr>
+                                            <td>SC</td>
+                                            <td>
+                                                <a href="{{route('admin_print_forms','sc')}}" class="btn btn-primary btn-circle btn-sm print">
+                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>RPCI</td>
+                                            <td>
+                                                <a href="{{route('admin_print_forms','rpci')}}" class="btn btn-primary btn-circle btn-sm print">
+                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>RSMI</td>
+                                            <td>
+                                                <a href="{{route('admin_print_forms','rsmi')}}" class="btn btn-primary btn-circle btn-sm print">
+                                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -258,9 +282,9 @@
         </div>
     </div>
 
-   
 
-  
+
+
 
 
     <!-- Bootstrap core JavaScript-->

@@ -3,7 +3,7 @@
 <head>
     <title>Report On The Physical Count Of Inventories</title>
     <style>
-        * { 
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -121,18 +121,6 @@
         .m-b-1 {
             height: 1px;
         }
-        
-        .des-p {
-            padding: 100px;
-        }
-
-        .short-over-p {
-            padding: 50px;
-        }
-
-        .re-p {
-            padding: 100px;
-        }
 
         .h-v {
             height: 10px;
@@ -185,7 +173,8 @@
             <div>
                 <b class="left m-43">As at &nbsp;</b>
                 <div class="left w-225 bb">&nbsp;</div>
-            <div class="clearer"></div>
+                <div class="clearer"></div>
+            </div>
         </div>
 
         <div>
@@ -463,19 +452,19 @@
         </tr>
         <tr>
             <td></td>
-            <td>
+            <td class="center">
                 <span class="bb" style="width: 90%; display: inline-block; margin: 0 auto"></span>
             </td>
             <td></td>
             <td></td>
             <td></td>
-            <td colspan="3">
+            <td class="center" colspan="3">
                 <span class="bb" style="width: 100%; display: inline-block; margin: 0 auto"></span>
             </td>
             <td></td>
-            <td><span class="bb" style="width: 80%; display: inline-block; margin: 0 auto"></span></td>
+            <td class="center"><span class="bb" style="width: 80%; display: inline-block; margin: 0 auto"></span></td>
         </tr>
-        <tr>
+        <tr class="center">
             <td></td>
             <td>Signature over Printed Name of Inventory Committe Chair and Members</td>
             <td></td>
@@ -484,7 +473,6 @@
             <td colspan="3">Signature over Printed Name of Head of Agency/Entity or Authorized Representative</td>
             <td></td>
             <td>Signature over Printed Name of COA Representative</td>
-        </tr>
         </tr>
     </table>
 </body>
