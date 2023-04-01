@@ -346,6 +346,17 @@
                     url: url,
                     data: {_token: token, qr_code: qrCodeMessage},
                     success: function (data) {
+                        let result = document.getElementById("result");
+                        let p = document.createElement('p');
+
+                        result.innerHTML = '';
+
+                        p.appendChild(document.createTextNode(data[0].supply_code));
+                        p.appendChild(document.createTextNode(' - ' + data[0].description));
+                        result.appendChild(p);
+
+                        result.appendChild(table);
+
                         data.map(row => {
                             let tr = document.createElement('tr');
 
@@ -380,9 +391,6 @@
                         })
                     }
                 });
-
-                document.getElementById("result").innerHTML = '';
-                document.getElementById("result").appendChild(table);
             }
 
             // When scan is unsuccessful fucntion will produce error message
@@ -414,6 +422,20 @@
                    url:findUserUrl,
                    data:{_token: token, qr_code: qr_code},
                    success:function(data) {
+                       let result = document.getElementById("result");
+                       let p = document.createElement('p');
+
+                       result.innerHTML = '';
+
+                       p.appendChild(document.createTextNode(data[0].supply_code));
+                       result.appendChild(p);
+
+                       p = document.createElement('p');
+                       p.appendChild(document.createTextNode(data[0].description));
+                       result.appendChild(p);
+
+                       result.appendChild(table);
+
                        data.map(row => {
                            let tr = document.createElement('tr');
 
@@ -437,9 +459,6 @@
                        })
                    }
                 });
-
-                document.getElementById("result").innerHTML = '';
-                document.getElementById("result").appendChild(table);
             });
         });
     </script>
