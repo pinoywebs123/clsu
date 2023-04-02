@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Dompdf\Dompdf;
 use PDF;
 use QrCode;
+use App\Models\Log;
 
 class AdminController extends Controller
 {
@@ -72,6 +73,7 @@ class AdminController extends Controller
         $validated['qr_code']   = rand(123456789,987654321);
 
         Supply::create($validated);
+        Log::create(['user_id'=> Auth::id(),'activity'=> 'Supply with code '.$validated['supply_code'].' was Added Successfully']);
         return redirect()->back()->with('success','Supply Created Successfully!');
     }
 

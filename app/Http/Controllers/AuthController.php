@@ -7,6 +7,7 @@ use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
+use App\Models\Log;
 
 use Spatie\Permission\Models\Role;
 
@@ -57,14 +58,19 @@ class AuthController extends Controller
         {
             if( Auth::user()->hasRole('admin') )
             {
+                Log::create(['user_id'=> Auth::id(),'activity'=> 'Login Successfully']);
                 return redirect()->route('admin_home');  
             }else if( Auth::user()->hasRole('department') )
             {
+                Log::create(['user_id'=> Auth::id(),'activity'=> 'Login Successfully']);
                 return redirect()->route('admin_supplies');  
             }else if( Auth::user()->hasRole('warehouse') )
             {
+                Log::create(['user_id'=> Auth::id(),'activity'=> 'Login Successfully']);
                 return redirect()->route('admin_supplies'); 
             }
+
+            
             
         }else 
         {
@@ -74,7 +80,9 @@ class AuthController extends Controller
 
     public function logout()
     {
+        Log::create(['user_id'=> Auth::id(),'activity'=> 'Logout Successfully']);
         Auth::logout();
+        
         return redirect('/login');
     }
 
