@@ -44,11 +44,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-           
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-           
+
 
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
@@ -110,33 +110,48 @@
                     </form>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto align-items-center">
 
-                       
+
 
                         <!-- Nav Item - Alerts -->
-                        
+
 
                         <!-- Nav Item - Messages -->
-                    
+                        <li class="nav-item dropdown" style="height: min-content">
+                            <button style="box-shadow: none !important" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><i class="far fa-bell"></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <h6 class="dropdown-header">Latest <strong class="text-warning">pending</strong> requested supplies</h6>
+                                @foreach($requested_supplies as $rs)
+                                    <div class="dropdown-item">
+                                        {{ $rs->quantity }} {{ \Illuminate\Support\Str::plural($rs->supply->unit->name, $rs->quantity) }} of {{ \Illuminate\Support\Str::plural($rs->supply->description, $rs->quantity) }} from {{ $rs->supply->department->name }}
+                                    </div>
+                                @endforeach
+                                <div class="dropdown-item">
+                                    <a class="btn d-block w-100 text-info" href="{{route('admin_request_supplies')}}">View all</a>
+                                </div>
+                            </div>
+                        </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{Auth::user()->first_name}} {{Auth::user()->last_name}}
+                                </span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{URL::to('img/undraw_profile.svg')}}">
+                                     src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                
+                                 aria-labelledby="userDropdown">
+
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
@@ -148,16 +163,14 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                   
+
 
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
@@ -177,7 +190,7 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    
+
                                     <tbody>
                                         @foreach($departments as $dept)
                                         <tr>
@@ -260,21 +273,21 @@
           <div class="modal-body">
             <form class="user" action="{{route('admin_departments_check')}}" method="POST">
                 @csrf
-                
+
                 <div class="form-group">
                     <input type="text" class="form-control form-control-user" id="exampleInputEmail"
                         placeholder="Department Name" name="name" required>
                 </div>
-               
-                
+
+
                 <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
@@ -298,12 +311,12 @@
                 <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
                 <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
@@ -328,16 +341,16 @@
                     <input type="text" class="form-control form-control-user" id="editDepartmentInput"
                         placeholder="Department Name" name="name" required>
                 </div>
-               
-                
+
+
                 <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
