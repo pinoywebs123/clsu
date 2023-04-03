@@ -41,7 +41,7 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-           
+
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -85,7 +85,7 @@
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
-          
+
 
         </ul>
         <!-- End of Sidebar -->
@@ -105,11 +105,28 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
-
+                    <ul class="navbar-nav ml-auto align-items-center">
+                        <li class="nav-item dropdown" style="height: min-content">
+                            <button style="box-shadow: none !important" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><i class="far fa-bell"></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <h6 class="dropdown-header">Requested supplies</h6>
+                                <div class="dropdown-item">
+                                    5 box of Item names from Department name
+                                </div>
+                                <div class="dropdown-item">
+                                    5 box of Item names from Department name
+                                </div>
+                                <div class="dropdown-item">
+                                    5 box of Item names from Department name
+                                </div>
+                                <div class="dropdown-item">
+                                    <a href="{{route('admin_request_supplies')}}">View all</a>
+                                </div>
+                            </div>
+                        </li>
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
@@ -134,9 +151,9 @@
                             </div>
                         </li>
 
-                       
 
-                       
+
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -151,7 +168,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                               
+
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
@@ -175,7 +192,7 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        
+
                     </div>
 
                     <!-- Content Row -->
@@ -347,9 +364,9 @@
                     <div class="row">
 
                         <!-- Content Column -->
-                        
 
-                        
+
+
                     </div>
 
                 </div>
