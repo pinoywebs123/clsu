@@ -44,11 +44,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-           
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-           
+
              @if(Auth::user()->hasRole('admin'))
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
@@ -114,18 +114,18 @@
                     </form>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                       
+
 
                         <!-- Nav Item - Alerts -->
-                        
+
 
                         <!-- Nav Item - Messages -->
-                    
+
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -142,7 +142,7 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                
+
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
@@ -185,11 +185,11 @@
                                             <th>Code</th>
                                             <th>Unit</th>
                                             <th>Price</th>
-                                            
+
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                   
+
                                     <tbody>
                                         @foreach($requested_supplies as $request)
                                             <tr>
@@ -206,7 +206,7 @@
                                                 <td>{{$request->supply->supply_code}}</td>
                                                 <td>{{$request->supply->unit->name}}</td>
                                                 <td>{{$request->supply->price}}</td>
-                                               
+
                                                 <td>
                                                     @if($request->status_id == 1)
                                                     <button class="btn btn-success btn-sm received" data-toggle="modal" data-target="#requestSupplyReceived" value="{{$request->id}}">RECEIVED</button>
@@ -215,7 +215,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -287,12 +287,12 @@
                 <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
                 <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
@@ -316,12 +316,12 @@
                 <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
                 <button type="button" class="btn btn-danger btn-user btn-block" data-dismiss="modal">NO</button>
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>

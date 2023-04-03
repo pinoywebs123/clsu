@@ -20,6 +20,11 @@
     <!-- Custom styles for this template-->
     <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
 
+    <style>
+        .navbar-nav .dropdown-item:not(:last-of-type):hover {
+            background-color: unset;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -112,21 +117,18 @@
                         <li class="nav-item dropdown" style="height: min-content">
                             <button style="box-shadow: none !important" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><i class="far fa-bell"></i></button>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <h6 class="dropdown-header">Requested supplies</h6>
+                                <h6 class="dropdown-header">Latest <strong class="text-warning">pending</strong> requested supplies</h6>
+                                @foreach($requested_supplies as $rs)
+                                    <div class="dropdown-item">
+                                        {{ $rs->quantity }} {{ $rs->supply->unit->name }} of {{ $rs->supply->description }} from {{ $rs->supply->department->name }}
+                                    </div>
+                                @endforeach
                                 <div class="dropdown-item">
-                                    5 box of Item names from Department name
-                                </div>
-                                <div class="dropdown-item">
-                                    5 box of Item names from Department name
-                                </div>
-                                <div class="dropdown-item">
-                                    5 box of Item names from Department name
-                                </div>
-                                <div class="dropdown-item">
-                                    <a href="{{route('admin_request_supplies')}}">View all</a>
+                                    <a class="btn d-block w-100 text-info" href="{{route('admin_request_supplies')}}">View all</a>
                                 </div>
                             </div>
                         </li>
+
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow d-sm-none">
                             <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"

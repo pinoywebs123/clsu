@@ -44,11 +44,11 @@
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
-           
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-           
+
              @if(Auth::user()->hasRole('admin'))
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
@@ -73,7 +73,7 @@
             </li>
             @endif
 
-            
+
              @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
 
             <li class="nav-item active">
@@ -140,35 +140,48 @@
                     </form>
 
                     <!-- Topbar Search -->
-                    
+
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto align-items-center">
 
-                       
+
 
                         <!-- Nav Item - Alerts -->
-                        
+
 
                         <!-- Nav Item - Messages -->
-                    
+                        <li class="nav-item dropdown" style="height: min-content">
+                            <button style="box-shadow: none !important" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><i class="far fa-bell"></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <h6 class="dropdown-header">Latest <strong class="text-warning">pending</strong> requested supplies</h6>
+                                @foreach($requested_supplies as $rs)
+                                    <div class="dropdown-item">
+                                        {{ $rs->quantity }} {{ \Illuminate\Support\Str::plural($rs->supply->unit->name, $rs->quantity) }} of {{ \Illuminate\Support\Str::plural($rs->supply->description, $rs->quantity) }} from {{ $rs->supply->department->name }}
+                                    </div>
+                                @endforeach
+                                <div class="dropdown-item">
+                                    <a class="btn d-block w-100 text-info" href="{{route('admin_request_supplies')}}">View all</a>
+                                </div>
+                            </div>
+                        </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     {{Auth::user()->first_name}} {{Auth::user()->last_name}}
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{URL::to('img/undraw_profile.svg')}}">
+                                     src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
-                                
+                                 aria-labelledby="userDropdown">
+
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Activity Log
@@ -180,9 +193,7 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
@@ -215,7 +226,7 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                   
+
                                     <tbody>
                                         @foreach($supplies as $supply)
                                         <tr>
@@ -235,7 +246,7 @@
                                                 <button class="btn btn-danger btn-circle btn-sm restock" value="{{$supply->id}}" data-toggle="modal" data-target="#requestSupply">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                 </button>
-                                               
+
                                                 <a href="{{route('admin_print_supplies',$supply->id)}}" class="btn btn-primary btn-circle btn-sm print">
                                                     <i class="fa fa-print" aria-hidden="true"></i>
                                                 </a>
@@ -247,12 +258,12 @@
                                                 </button>
                                                  @endif
 
-                                                
-                                                
+
+
                                             </th>
                                         </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -320,13 +331,13 @@
           <div class="modal-body">
             <form class="user" action="{{route('admin_supplies_check')}}" method="POST">
                 @csrf
-               
+
                 <div class="form-group">
                     <textarea class="form-control form-control" placeholder="Item Description" name="description" required></textarea>
                 </div>
 
                  <div class="form-group row">
-                    
+
                     <div class="col-sm-6">
                         <input type="text" class="form-control form-control" id="exampleLastName"
                             placeholder="Supply Code" name="supply_code" required>
@@ -363,12 +374,12 @@
                     <div class="col-sm-6">
                         <label>Sub Category</label>
                        <select class="form-control form-control" name="sub_id" required id="sub_category">
-                           
+
                        </select>
                     </div>
 
-                    
-                    
+
+
                 </div>
 
                 <div class="form-group row">
@@ -386,15 +397,15 @@
                        <input type="number" class="form-control" name="quantity" required>
                     </div>
                 </div>
-                
+
                 <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
@@ -420,7 +431,7 @@
                 </div>
 
                  <div class="form-group row">
-                    
+
                     <div class="col-sm-6">
                         <input type="text" class="form-control form-control" placeholder="Supply Code" name="supply_code" required id="supply_code_find">
                     </div>
@@ -459,17 +470,17 @@
                            @endforeach
                        </select>
                     </div>
-                    
+
                 </div>
-                
+
                 <button type="submit"  class="btn btn-primary btn-user btn-block">SUBMIT</button>
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
@@ -495,14 +506,14 @@
                     <input type="number" name="quantity_order" class="form-control" required>
                 </div>
                 <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
-                
+
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
@@ -528,14 +539,14 @@
                     <input type="number" name="quantity_order" class="form-control" required>
                 </div>
                 <button type="submit"  class="btn btn-primary btn-user btn-block">YES</button>
-                
+
                 <hr>
-                
+
             </form>
 
           </div>
 
-         
+
 
         </div>
       </div>
@@ -590,7 +601,7 @@
                 });
             });
 
-           
+
 
             $(".edit").click(function(){
                 var supply_id = $(this).val();

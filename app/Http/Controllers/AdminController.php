@@ -21,14 +21,16 @@ class AdminController extends Controller
 
     public function home()
     {
-        return view('admin.home');
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+        return view('admin.home', compact('requested_supplies'));
     }
 
     public function users()
     {
         $users = User::all();
         $departments = Department::all();
-        return view('admin.users',compact('users','departments'));
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+        return view('admin.users',compact('users','departments', 'requested_supplies'));
     }
 
     public function request_supplies()
@@ -43,6 +45,8 @@ class AdminController extends Controller
         $units = Unit::all();
         $departments = Department::all();
         $subs = Sub::all();
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+
         if( Auth::user()->hasRole('admin') || Auth::user()->hasRole('warehouse'))
         {
             $supplies = Supply::all();
@@ -51,7 +55,7 @@ class AdminController extends Controller
              $supplies = Supply::where('department_id',Auth::user()->department_id)->get();
         }
 
-        return view('admin.supplies',compact('categories','supplies','departments','units','subs'));
+        return view('admin.supplies',compact('categories','supplies','departments','units','subs', 'requested_supplies'));
     }
 
     public function supplies_check(Request $request)
@@ -106,7 +110,8 @@ class AdminController extends Controller
     public function departments()
     {
         $departments = Department::all();
-        return view('admin.departments',compact('departments'));
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+        return view('admin.departments',compact('departments', 'requested_supplies'));
     }
 
     public function departments_check(Request $request)
@@ -278,7 +283,8 @@ class AdminController extends Controller
 
     public function forms()
     {
-      return view('admin.forms');
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+        return view('admin.forms', compact('requested_supplies'));
     }
 
     public function print_forms($form)
