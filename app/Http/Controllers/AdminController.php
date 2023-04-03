@@ -24,6 +24,7 @@ class AdminController extends Controller
 
     public function home()
     {
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
         $pending_request = RequestSupply::where('status_id',0)->count();
         $approve_request = RequestSupply::where('status_id',1)->count();
 
@@ -34,13 +35,16 @@ class AdminController extends Controller
                             ->get();
          $annual =  $monthly_income[0]->per_sales;
                             
-        return view('admin.home',compact('pending_request','approve_request','annual'));
+        return view('admin.home',compact('pending_request','approve_request','annual','requested_supplies'));
     }
 
     public function logs()
     {
-        $logs = Log::all();
+        $logs = Log::orderBy('id','desc')->get();
         return view('admin.logs',compact('logs'));
+        
+        // $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+        // return view('admin.home', compact('requested_supplies'));
     }
 
     public function users()
