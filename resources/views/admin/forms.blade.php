@@ -119,7 +119,7 @@
 
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto align-items-center">
 
 
 
@@ -127,21 +127,36 @@
 
 
                         <!-- Nav Item - Messages -->
-
+                        <li class="nav-item dropdown" style="height: min-content">
+                            <button style="box-shadow: none !important" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><i class="far fa-bell"></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <h6 class="dropdown-header">Latest <strong class="text-warning">pending</strong> requested supplies</h6>
+                                @foreach($requested_supplies as $rs)
+                                    <div class="dropdown-item">
+                                        {{ $rs->quantity }} {{ \Illuminate\Support\Str::plural($rs->supply->unit->name, $rs->quantity) }} of {{ \Illuminate\Support\Str::plural($rs->supply->description, $rs->quantity) }} from {{ $rs->supply->department->name }}
+                                    </div>
+                                @endforeach
+                                <div class="dropdown-item">
+                                    <a class="btn d-block w-100 text-info" href="{{route('admin_request_supplies')}}">View all</a>
+                                </div>
+                            </div>
+                        </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"></span>
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    {{Auth::user()->first_name}} {{Auth::user()->last_name}}
+                                </span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{URL::to('img/undraw_profile.svg')}}">
+                                     src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                                 aria-labelledby="userDropdown">
 
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -154,9 +169,7 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
