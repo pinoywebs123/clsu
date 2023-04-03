@@ -89,6 +89,11 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>FORMS</span></a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_logs')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>LOGS ACTIVITY</span></a>
+            </li>
             @endif
 
             @if( Auth::user()->hasRole('warehouse') )

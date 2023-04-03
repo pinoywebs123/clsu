@@ -16,13 +16,31 @@ use Dompdf\Dompdf;
 use PDF;
 use QrCode;
 use App\Models\Log;
+use DB;
+
 
 class AdminController extends Controller
 {
 
     public function home()
     {
-        return view('admin.home');
+        $pending_request = RequestSupply::where('status_id',0)->count();
+        $approve_request = RequestSupply::where('status_id',1)->count();
+
+        $monthly_income = RequestSupply::where('request_supplies.status_id',2)
+                            ->join('supplies','request_supplies.supply_id','supplies.id')
+                            ->select(DB::raw('sum(supplies.price * request_supplies.quantity) as per_sales'))
+                           
+                            ->get();
+         $annual =  $monthly_income[0]->per_sales;
+                            
+        return view('admin.home',compact('pending_request','approve_request','annual'));
+    }
+
+    public function logs()
+    {
+        $logs = Log::all();
+        return view('admin.logs',compact('logs'));
     }
 
     public function users()

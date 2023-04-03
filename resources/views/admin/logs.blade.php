@@ -77,12 +77,13 @@
                     <span>SUPPLIES</span></a>
             </li>
 
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_forms')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>FORMS</span></a>
             </li>
-            <li class="nav-item ">
+
+            <li class="nav-item active">
                 <a class="nav-link" href="{{route('admin_logs')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>LOGS ACTIVITY</span></a>
@@ -170,7 +171,7 @@
                         <div class="card-header py-3">
                             @include('shared.notification')
                             @include('shared.validation')
-                            <h6 class="m-0 font-weight-bold text-primary">FORM LIST</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Log Activity</h6>
 
                         </div>
                         <div class="card-body">
@@ -179,61 +180,20 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-
-                                            <th>Action</th>
+                                            <th>Activity</th>
+                                            <th>Created</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-
-                                        <tr>
-                                           <td>IAR</td>
-                                           <td>
-                                                <a href="{{route('admin_print_forms','iar')}}" class="btn btn-primary btn-circle btn-sm print">
-                                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                                </a>
-                                           </td>
-                                       </tr>
-                                        <tr>
-                                           <td>PO</td>
-                                           <td>
-                                               <a href="{{route('admin_print_forms','po')}}" class="btn btn-primary btn-circle btn-sm print">
-                                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                                </a>
-                                           </td>
-                                       </tr>
-                                        <tr>
-                                           <td>RIS</td>
-                                           <td>
-                                              <a href="{{route('admin_print_forms','ris')}}" class="btn btn-primary btn-circle btn-sm print">
-                                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                                </a>
-                                           </td>
-                                       </tr>
-                                        <tr>
-                                            <td>SC</td>
-                                            <td>
-                                                <a href="{{route('admin_print_forms','sc')}}" class="btn btn-primary btn-circle btn-sm print">
-                                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>RPCI</td>
-                                            <td>
-                                                <a href="{{route('admin_print_forms','rpci')}}" class="btn btn-primary btn-circle btn-sm print">
-                                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>RSMI</td>
-                                            <td>
-                                                <a href="{{route('admin_print_forms','rsmi')}}" class="btn btn-primary btn-circle btn-sm print">
-                                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        @foreach($logs as $log)
+                                            <tr>
+                                                <td>{{$log->user->first_name}} {{$log->user->last_name}}</td>
+                                                <td>{{$log->activity}}</td>
+                                                <td>{{$log->created_at}}</td>
+                                            </tr>
+                                        @endforeach
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -310,24 +270,7 @@
     <script src="{{URL::to('js/demo/datatables-demo.js')}}"></script>
     <script>
         $(document).ready(function(){
-            var token = '{{Session::token()}}';
-            var findUserUrl = '{{route("admin_find_department")}}';
-            $(".delete").click(function(){
-                $("#deleteDepartment").val($(this).val());
-            });
-            $(".edit").click(function(){
-                var department_id = $(this).val();
-                $("#editDepartment").val(department_id);
-                $.ajax({
-                   type:'POST',
-                   url:findUserUrl,
-                   data:{_token: token, department_id: department_id},
-                   success:function(data) {
-                     $("#editDepartmentInput").val(data.name);
-                   }
-                });
-
-            });
+            
         });
     </script>
 </body>
