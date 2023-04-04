@@ -31,18 +31,48 @@ class AdminController extends Controller
         $monthly_income = RequestSupply::where('request_supplies.status_id',2)
                             ->join('supplies','request_supplies.supply_id','supplies.id')
                             ->select(DB::raw('sum(supplies.price * request_supplies.quantity) as per_sales'))
-                           
                             ->get();
-         $annual =  $monthly_income[0]->per_sales;
-                            
-        return view('admin.home',compact('pending_request','approve_request','annual','requested_supplies'));
+
+        $monthly_line_chart_months = RequestSupply::where('request_supplies.status_id', '>=', 2)
+            ->join('supplies','request_supplies.supply_id','supplies.id')
+            ->select(DB::raw("DATE_FORMAT(request_supplies.created_at, '%b') month"))
+            ->groupby('request_supplies.created_at')
+            ->where(DB::raw('YEAR(request_supplies.created_at)'), date("Y"))
+            ->get();
+
+        $monthly_line_chart_months = $monthly_line_chart_months->map(function($x) { return $x->month; });
+
+        $monthly_line_chart_months->prepend('First day');
+
+        $monthly_line_chart_expenses = RequestSupply::where('request_supplies.status_id', '>=', 2)
+            ->join('supplies','request_supplies.supply_id','supplies.id')
+            ->select(DB::raw("sum(supplies.price * request_supplies.quantity) as expense"))
+            ->groupby('request_supplies.created_at')
+            ->where(DB::raw('YEAR(request_supplies.created_at)'), date("Y"))
+            ->get();
+
+        $monthly_line_chart_expenses = $monthly_line_chart_expenses->map(function($x) { return $x->expense; });
+        $monthly_line_chart_expenses->prepend(0);
+
+        $most_requested_supplies = RequestSupply::select(DB::raw("supplies.description, sum(request_supplies.quantity) as total"))
+            ->join('supplies','request_supplies.supply_id','supplies.id')
+            ->groupby('supplies.description')
+            ->limit('5')
+            ->get();
+
+        $most_requested_supplies_description = $most_requested_supplies->map(function($x) { return $x->description; });
+        $most_requested_supplies_total = $most_requested_supplies->map(function($x) { return $x->total; });
+
+        $annual =  $monthly_income[0]->per_sales;
+
+        return view('admin.home',compact('pending_request','approve_request','annual','requested_supplies', 'monthly_line_chart_months', 'monthly_line_chart_expenses', 'most_requested_supplies_description', 'most_requested_supplies_total'));
     }
 
     public function logs()
     {
         $logs = Log::orderBy('id','desc')->get();
         return view('admin.logs',compact('logs'));
-        
+
         // $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
         // return view('admin.home', compact('requested_supplies'));
     }
