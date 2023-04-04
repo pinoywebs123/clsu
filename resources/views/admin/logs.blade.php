@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::to('css/sb-admin-2-custom.css')}}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="{{URL::to('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -193,7 +193,7 @@
                                                 <td>{{$log->created_at}}</td>
                                             </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -270,7 +270,7 @@
     <script src="{{URL::to('js/demo/datatables-demo.js')}}"></script>
     <script>
         $(document).ready(function(){
-            
+
         });
     </script>
 </body>
