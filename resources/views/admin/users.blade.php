@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::to('css/sb-admin-2-custom.css')}}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="{{URL::to('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -142,7 +142,7 @@
                                     </div>
                                 @endforeach
                                 <div class="dropdown-item">
-                                    <a class="btn d-block w-100 text-info" href="{{route('admin_request_supplies')}}">View all</a>
+                                    <a class="btn d-block w-100 text-primary" href="{{route('admin_request_supplies')}}">View all</a>
                                 </div>
                             </div>
                         </li>
@@ -189,7 +189,7 @@
                             @include('shared.notification')
                             @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">USER LIST</h6>
-                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newUserModal">ADD USER</button>
+                            <button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#newUserModal">ADD USER</button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">

@@ -57,7 +57,7 @@ class AdminController extends Controller
 
     public function request_supplies()
     {
-        $requested_supplies = RequestSupply::orderBy('id','desc')->get();
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
         return view('admin.requester',compact('requested_supplies'));
     }
 

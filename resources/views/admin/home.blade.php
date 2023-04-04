@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::to('css/sb-admin-2-custom.css')}}" rel="stylesheet">
 
     <style>
         .navbar-nav .dropdown-item:not(:last-of-type):hover {
@@ -234,7 +234,7 @@
                                                 <div class="col-auto">
                                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{$approve_request}}</div>
                                                 </div>
-                                                
+
                                             </div>
                                         </div>
                                         <div class="col-auto">
