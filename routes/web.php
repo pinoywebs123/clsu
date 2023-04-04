@@ -19,6 +19,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::group(['prefix'=> 'users'], function(){
 
     Route::get('/home', [AdminController::class, 'home'])->name('admin_home');
+    Route::get('/logs', [AdminController::class, 'logs'])->name('admin_logs');
 
     Route::get('/users', [AdminController::class, 'users'])->name('admin_users');
     Route::post('/users', [AdminController::class, 'users_check'])->name('admin_users_check');

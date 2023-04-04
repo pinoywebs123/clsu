@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Auth;
 use Dompdf\Dompdf;
 use PDF;
 use QrCode;
+use App\Models\Log;
+use DB;
+
 
 class AdminController extends Controller
 {
@@ -22,7 +25,26 @@ class AdminController extends Controller
     public function home()
     {
         $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
-        return view('admin.home', compact('requested_supplies'));
+        $pending_request = RequestSupply::where('status_id',0)->count();
+        $approve_request = RequestSupply::where('status_id',1)->count();
+
+        $monthly_income = RequestSupply::where('request_supplies.status_id',2)
+                            ->join('supplies','request_supplies.supply_id','supplies.id')
+                            ->select(DB::raw('sum(supplies.price * request_supplies.quantity) as per_sales'))
+                           
+                            ->get();
+         $annual =  $monthly_income[0]->per_sales;
+                            
+        return view('admin.home',compact('pending_request','approve_request','annual','requested_supplies'));
+    }
+
+    public function logs()
+    {
+        $logs = Log::orderBy('id','desc')->get();
+        return view('admin.logs',compact('logs'));
+        
+        // $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+        // return view('admin.home', compact('requested_supplies'));
     }
 
     public function users()
@@ -76,6 +98,7 @@ class AdminController extends Controller
         $validated['qr_code']   = rand(123456789,987654321);
 
         Supply::create($validated);
+        Log::create(['user_id'=> Auth::id(),'activity'=> 'Supply with code '.$validated['supply_code'].' was Added Successfully']);
         return redirect()->back()->with('success','Supply Created Successfully!');
     }
 
