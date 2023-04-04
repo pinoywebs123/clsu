@@ -1,6 +1,10 @@
 // Import Custom SB Admin 2 Variables (Overrides Default Bootstrap Variables)
 @import "variables.scss";
 
+$primary: #387F22;
+$secondary: #FBF351;
+
+
 // Import Bootstrap
 @import "../vendor/bootstrap/scss/bootstrap.scss";
 

@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::to('css/sb-admin-2-custom.css')}}" rel="stylesheet">
 
     <style>
         .navbar-nav .dropdown-item:not(:last-of-type):hover {
@@ -131,7 +131,7 @@
                                     </div>
                                 @endforeach
                                 <div class="dropdown-item">
-                                    <a class="btn d-block w-100 text-info" href="{{route('admin_request_supplies')}}">View all</a>
+                                    <a class="btn d-block w-100 text-primary" href="{{route('admin_request_supplies')}}">View all</a>
                                 </div>
                             </div>
                         </li>
@@ -223,7 +223,7 @@
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tasks
                                             </div>
                                             <div class="row no-gutters align-items-center">
                                                 <div class="col-auto">
@@ -335,7 +335,7 @@
                                             <i class="fas fa-circle text-success"></i> Social
                                         </span>
                                         <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
+                                            <i class="fas fa-circle text-primary"></i> Referral
                                         </span>
                                     </div>
                                 </div>

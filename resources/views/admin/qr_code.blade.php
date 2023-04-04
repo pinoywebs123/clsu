@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::to('css/sb-admin-2-custom.css')}}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="{{URL::to('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">

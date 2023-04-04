@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::to('css/sb-admin-2-custom.css')}}" rel="stylesheet">
 
     <!-- Custom styles for this page -->
     <link href="{{URL::to('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -170,7 +170,7 @@
                             @include('shared.validation')
                             <h6 class="m-0 font-weight-bold text-primary">HISTORY LIST</h6>
                             @if(Auth::user()->hasRole('admin'))
-                            <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target="#newSupplyModal">ADD SUPPLY</button>
+                            <button class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#newSupplyModal">ADD SUPPLY</button>
                             @endif
                         </div>
                         <div class="card-body">

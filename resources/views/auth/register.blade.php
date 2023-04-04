@@ -18,7 +18,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{URL::to('css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <link href="{{URL::to('css/sb-admin-2-custom.css')}}" rel="stylesheet">
 
 </head>
 
@@ -72,10 +72,10 @@
                                             id="exampleRepeatPassword" placeholder="Repeat Password" name="repeat_password" required>
                                     </div>
                                 </div>
-                                
+
                                 <button type="submit"  class="btn btn-primary btn-user btn-block">Register Account</button>
                                 <hr>
-                                
+
                             </form>
                             <hr>
                            <!--  <div class="text-center">
