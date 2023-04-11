@@ -22,43 +22,7 @@
 
     <!-- Custom styles for this page -->
     <link href="{{URL::to('vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
-    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
-    <style>
-        h1 {
-          text-align: center;
-        }
 
-        #reader {
-          width: 500px;
-        }
-
-        .result {
-          background-color: grey;
-          color: #fff;
-          padding: 20px;
-        }
-
-        .row {
-          display: flex;
-        }
-
-        #reader {
-            width: auto !important;
-        }
-
-        #reader__scan_region {
-          background: white;
-        }
-
-        table {
-            font-size: .8em;
-            width: 100%;
-        }
-
-        video {
-            width: 100% !important;
-        }
-    </style>
 </head>
 
 <body id="page-top">
@@ -95,7 +59,7 @@
             <hr class="sidebar-divider">
 
 
-             @if(Auth::user()->hasRole('admin'))
+
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_home')}}">
@@ -107,47 +71,32 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>REQUESTED</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_users')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>USERS</span></a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_departments')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>DEPARTMENT</span></a>
+                    <span>OFFICE</span></a>
             </li>
-            @endif
-
-             @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
-
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
-            @endif
 
-            @if( Auth::user()->hasRole('warehouse') )
-            <li class="nav-item active">
-                <a class="nav-link" href="{{route('admin_scan_qr_code')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>QR CODE</span></a>
-            </li>
-            @endif
-
-            @if(Auth::user()->hasRole('department'))
             <li class="nav-item ">
-                <a class="nav-link" href="{{route('department_request')}}">
+                <a class="nav-link" href="{{route('admin_forms')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>REQUESTED</span></a>
+                    <span>FORMS</span></a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="{{route('department_history')}}">
+                <a class="nav-link" href="{{route('admin_logs')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>HISTORY</span></a>
+                    <span>LOGS ACTIVITY</span></a>
             </li>
-            @endif
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -180,7 +129,7 @@
 
 
                     <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                    <ul class="navbar-nav ml-auto align-items-center">
 
 
 
@@ -188,25 +137,34 @@
 
 
                         <!-- Nav Item - Messages -->
-
+                        <li class="nav-item dropdown" style="height: min-content">
+                            <button style="box-shadow: none !important" class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown"><i class="far fa-bell"></i></button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <h6 class="dropdown-header">Latest <strong class="text-warning">pending</strong> requested supplies</h6>
+                               
+                                <div class="dropdown-item">
+                                    <a class="btn d-block w-100 text-primary" href="{{route('admin_request_supplies')}}">View all</a>
+                                </div>
+                            </div>
+                        </li>
 
                         <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                                     {{Auth::user()->first_name}} {{Auth::user()->last_name}}
                                 </span>
                                 <img class="img-profile rounded-circle"
-                                    src="{{URL::to('img/undraw_profile.svg')}}">
+                                     src="{{URL::to('img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                                 aria-labelledby="userDropdown">
 
-                               <a class="dropdown-item" href="{{route('admin_settings')}}">
+                                <a class="dropdown-item" href="{{route('admin_settings')}}">
                                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
                                 </a>
@@ -217,41 +175,37 @@
                                 </a>
                             </div>
                         </li>
-
                     </ul>
-
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+
+
                     <!-- DataTales Example -->
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
                             @include('shared.notification')
                             @include('shared.validation')
-                            <h6 class="m-0 font-weight-bold text-primary">SCAN QR CODE</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Change Password</h6>
 
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <h1 class="col-12">QR Code Reader using Javascript</h1>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <div id="reader"></div>
-                                        </div>
-                                        <div class="col-12 col-lg-6" style="padding: 5px">
-                                            <h4>Scan Result </h4>
-                                            <div id="result">
-                                                Result goes here
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                               <form action="{{route('admin_settings_check')}}" method="POST">
+                                    @csrf
+                                   <div class="form-group">
+                                        <label>Enter New Password</label>
+                                       <input type="password" name="password" class="form-control" required>
+                                   </div>
+                                    <div class="form-group">
+                                        <label>Repeat Password</label>
+                                       <input type="password" name="repeat_password" class="form-control" required>
+                                   </div>
+                                   <button type="submit" class="btn btn-warning">Submit</button>
+                               </form>
                             </div>
                         </div>
                     </div>
@@ -305,6 +259,9 @@
 
 
 
+
+
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{URL::to('vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{URL::to('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
@@ -321,154 +278,25 @@
 
     <!-- Page level custom scripts -->
     <script src="{{URL::to('js/demo/datatables-demo.js')}}"></script>
-
     <script>
         $(document).ready(function(){
-            var url = '{{route('admin_scan_qr_code_check')}}';
             var token = '{{Session::token()}}';
-            // When scan is successful fucntion will produce data
-
-            let table = document.createElement('table');
-            let tr = document.createElement('tr');
-            let th = document.createElement('th');
-
-            th.appendChild(document.createTextNode('Status'));
-            tr.appendChild(th);
-
-            th = document.createElement('th');
-            th.appendChild(document.createTextNode('Quantity'));
-            tr.appendChild(th);
-
-            th = document.createElement('th');
-            th.appendChild(document.createTextNode('Name of Requester'));
-            tr.appendChild(th);
-
-            th = document.createElement('th');
-            th.appendChild(document.createTextNode('Office requested'));
-            tr.appendChild(th);
-
-            function onScanSuccess(qrCodeMessage,) {
-                table.innerHTML = '';
-                table.appendChild(tr);
-
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: {_token: token, qr_code: qrCodeMessage},
-                    success: function (data) {
-                        let result = document.getElementById("result");
-                        let p = document.createElement('p');
-
-                        result.innerHTML = '';
-
-                        p.appendChild(document.createTextNode(data[0].supply_code));
-                        p.appendChild(document.createTextNode(' - ' + data[0].description));
-                        result.appendChild(p);
-
-                        result.appendChild(table);
-
-                        data.map(row => {
-                            let tr = document.createElement('tr');
-
-                            let td = document.createElement('td');
-
-                            let status = '';
-
-                            switch(row.status_id) {
-                                case 0: status = 'Pending'; break;
-                                case 1: status = 'Approved'; break;
-                                case 2: status = 'Received'; break;
-                                case 3: status = 'Returned'; break;
-                                default: status = 'Unknown';
-                            }
-
-                            td.appendChild(document.createTextNode(status));
-                            tr.appendChild(td);
-
-                            td = document.createElement('td');
-                            td.appendChild(document.createTextNode(row.quantity));
-                            tr.appendChild(td);
-
-                            td = document.createElement('td');
-                            td.appendChild(document.createTextNode(row.first_name + ' ' + row.last_name));
-                            tr.appendChild(td);
-
-                            td = document.createElement('td');
-                            td.appendChild(document.createTextNode(row.dept_name));
-                            tr.appendChild(td);
-
-                            table.appendChild(tr);
-                        })
-                    }
-                });
-            }
-
-            // When scan is unsuccessful fucntion will produce error message
-            function onScanError(errorMessage) {
-              // Handle Scan Error
-            }
-
-            // Setting up Qr Scanner properties
-            var html5QrCodeScanner = new Html5QrcodeScanner("reader", {
-              fps: 10,
-              qrbox: 250
+            var findUserUrl = '{{route("admin_find_department")}}';
+            $(".delete").click(function(){
+                $("#deleteDepartment").val($(this).val());
             });
-
-            // in
-            html5QrCodeScanner.render(onScanSuccess, onScanError);
-
-
-            var token = '{{Session::token()}}';
-            var findUserUrl = '{{route("admin_scan_qr_code_check")}}';
-
-            $("#qr_code_scanner").change(function(tr){
-                table.innerHTML = '';
-                table.appendChild(tr);
-
-                var qr_code = $(this).val();
-
+            $(".edit").click(function(){
+                var department_id = $(this).val();
+                $("#editDepartment").val(department_id);
                 $.ajax({
                    type:'POST',
                    url:findUserUrl,
-                   data:{_token: token, qr_code: qr_code},
+                   data:{_token: token, department_id: department_id},
                    success:function(data) {
-                       let result = document.getElementById("result");
-                       let p = document.createElement('p');
-
-                       result.innerHTML = '';
-
-                       p.appendChild(document.createTextNode(data[0].supply_code));
-                       result.appendChild(p);
-
-                       p = document.createElement('p');
-                       p.appendChild(document.createTextNode(data[0].description));
-                       result.appendChild(p);
-
-                       result.appendChild(table);
-
-                       data.map(row => {
-                           let tr = document.createElement('tr');
-
-                           let td = document.createElement('td');
-                           td.appendChild(document.createTextNode(row.status_id));
-                           tr.appendChild(td);
-
-                           td = document.createElement('td');
-                           td.appendChild(document.createTextNode(row.quantity));
-                           tr.appendChild(td);
-
-                           td = document.createElement('td');
-                           td.appendChild(document.createTextNode(row.first_name + ' ' + row.last_name));
-                           tr.appendChild(td);
-
-                           td = document.createElement('td');
-                           td.appendChild(document.createTextNode(row.dept_name));
-                           tr.appendChild(td);
-
-                           table.appendChild(tr);
-                       })
+                     $("#editDepartmentInput").val(data.name);
                    }
                 });
+
             });
         });
     </script>

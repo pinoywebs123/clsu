@@ -20,6 +20,9 @@ Route::group(['prefix'=> 'users'], function(){
 
     Route::get('/home', [AdminController::class, 'home'])->name('admin_home');
     Route::get('/logs', [AdminController::class, 'logs'])->name('admin_logs');
+    Route::get('/settings', [AdminController::class, 'settings'])->name('admin_settings');
+    Route::post('/settings', [AdminController::class, 'settings_check'])->name('admin_settings_check');
+
 
     Route::get('/users', [AdminController::class, 'users'])->name('admin_users');
     Route::post('/users', [AdminController::class, 'users_check'])->name('admin_users_check');

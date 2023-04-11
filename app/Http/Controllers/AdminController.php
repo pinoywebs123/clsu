@@ -347,4 +347,24 @@ class AdminController extends Controller
 
         return view('reports.'.$form);
     }
+
+    public function settings()
+    {
+        return view('admin.settings');
+    }
+
+    public function settings_check(Request $request)
+    {
+        $validated = $request->validate([
+            'password'          => 'required|max:12|min:6',
+            'repeat_password'   => 'required|same:password'
+        ]);
+
+        $find = User::find(Auth::id());
+        if($find)
+        {
+            $find->update(['password'=> bcrypt($validated['password'])]);
+            return redirect()->back()->with('success','Password Updated Successfully!'); 
+        }
+    }
 }
