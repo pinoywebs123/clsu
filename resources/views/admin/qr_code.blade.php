@@ -72,16 +72,16 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                   <img src="{{URL::to('/img/clsu_logo.png')}}" width="50px">
                 </div>
                  <div class="sidebar-brand-text mx-3">
-                    {{Auth::user()->first_name}} {{Auth::user()->last_name}}
+                    <p style="font-size: 12px; margin-top: 30px;">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</p>
                     <p>
                      @if(Auth::user()->hasRole('department'))
-                        Officer
+                        <p style="margin-top: -10px;">Officer</p>
                      @endif
                      @if(Auth::user()->hasRole('admin'))
-                        Admin
+                       <p style="margin-top: -10px;">Admin</p>
                      @endif
                     </p>
                 </div>
