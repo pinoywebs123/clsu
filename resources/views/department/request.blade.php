@@ -38,7 +38,17 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                 <div class="sidebar-brand-text mx-3">
+                    {{Auth::user()->first_name}} {{Auth::user()->last_name}}
+                    <p>
+                     @if(Auth::user()->hasRole('department'))
+                        Officer
+                     @endif
+                     @if(Auth::user()->hasRole('admin'))
+                        Admin
+                     @endif
+                    </p>
+                </div>
             </a>
 
             <!-- Divider -->
@@ -232,7 +242,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; CLSU Property and Supply Office 2023</span>
                     </div>
                 </div>
             </footer>
