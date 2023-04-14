@@ -22,6 +22,7 @@ Route::group(['prefix'=> 'users'], function(){
     Route::get('/logs', [AdminController::class, 'logs'])->name('admin_logs');
     Route::get('/settings', [AdminController::class, 'settings'])->name('admin_settings');
     Route::post('/settings', [AdminController::class, 'settings_check'])->name('admin_settings_check');
+    Route::post('/update-settings', [AdminController::class, 'update_settings_check'])->name('admin_update_settings_check');
 
 
     Route::get('/users', [AdminController::class, 'users'])->name('admin_users');
@@ -59,6 +60,7 @@ Route::group(['prefix'=> 'users'], function(){
     //WAREHOUSE 
     Route::get('/scan-qr-code', [AdminController::class, 'scan_qr_code'])->name('admin_scan_qr_code');
     Route::post('/scan-qr-code', [AdminController::class, 'scan_qr_code_check'])->name('admin_scan_qr_code_check');
+    Route::get('/warehouse-request-supplies', [AdminController::class, 'warehouse_request_supplies'])->name('admin_warehouse_request_supplies');
 
 
     //DEPARTMENT

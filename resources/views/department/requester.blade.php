@@ -66,12 +66,12 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>HOME</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_request_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>REQUESTED</span></a>
             </li>
-            <li class="nav-item ">
+            <li class="nav-item">
                 <a class="nav-link" href="{{route('admin_users')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>USERS</span></a>
@@ -79,40 +79,43 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{route('admin_departments')}}">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>OFFICE</span></a>
-            </li>
-             @endif
-
-
-            @if(Auth::user()->hasRole('warehouse') )
-             <li class="nav-item active">
-                <a class="nav-link" href="{{route('admin_request_supplies')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>REQUESTED</span></a>
+                    <span>DEPARTMENT</span></a>
             </li>
             @endif
+
+             @if(Auth::user()->hasRole('department') || Auth::user()->hasRole('warehouse') || Auth::user()->hasRole('admin'))
 
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_supplies')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>SUPPLIES</span></a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="{{route('admin_forms')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>FORMS</span></a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="{{route('admin_logs')}}">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>LOGS ACTIVITY</span></a>
-            </li>
+            @endif
 
-             @if( Auth::user()->hasRole('warehouse') )
+            @if( Auth::user()->hasRole('warehouse') )
             <li class="nav-item ">
                 <a class="nav-link" href="{{route('admin_scan_qr_code')}}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>QR CODE</span></a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{{route('admin_warehouse_request_supplies')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
+            @endif
+
+            @if(Auth::user()->hasRole('department'))
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('department_request')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="{{route('department_history')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>HISTORY</span></a>
             </li>
             @endif
 

@@ -39,14 +39,14 @@
                    <img src="{{URL::to('/img/clsu_logo.png')}}" width="50px">
                 </div>
                  <div class="sidebar-brand-text mx-3">
-                    <p style="font-size: 12px; margin-top: 30px;">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</p>
+                    <p style="font-size: 12px; margin-top: 30px;">CLSU INVENTORY SYSTEM</p>
                     <p>
-                     @if(Auth::user()->hasRole('department'))
+                    <!--  @if(Auth::user()->hasRole('department'))
                         <p style="margin-top: -10px;">Officer</p>
                      @endif
                      @if(Auth::user()->hasRole('admin'))
                        <p style="margin-top: -10px;">Admin</p>
-                     @endif
+                     @endif -->
                     </p>
                 </div>
             </a>
@@ -203,6 +203,28 @@
                                     <div class="form-group">
                                         <label>Repeat Password</label>
                                        <input type="password" name="repeat_password" class="form-control" required>
+                                   </div>
+                                   <button type="submit" class="btn btn-warning">Submit</button>
+                               </form>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                               <form action="{{route('admin_update_settings_check')}}" method="POST">
+                                    @csrf
+                                   <div class="form-group">
+                                        <label>First Name</label>
+                                       <input type="text" name="first_name" class="form-control" required value="{{Auth::user()->first_name}}">
+                                   </div>
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                       <input type="text" name="last_name" class="form-control" required value="{{Auth::user()->last_name}}">
+                                   </div>
+
+                                   <div class="form-group">
+                                        <label>Email</label>
+                                       <input type="email" name="email" class="form-control" required value="{{Auth::user()->email}}">
                                    </div>
                                    <button type="submit" class="btn btn-warning">Submit</button>
                                </form>

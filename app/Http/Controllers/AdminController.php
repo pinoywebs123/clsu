@@ -367,4 +367,32 @@ class AdminController extends Controller
             return redirect()->back()->with('success','Password Updated Successfully!'); 
         }
     }
+
+    public function warehouse_request_supplies()
+    {
+        $requested_supplies = RequestSupply::where('status_id', 0)->orderBy('id','desc')->get();
+        return view('department.requester',compact('requested_supplies'));
+    }
+
+    public function update_settings_check(Request $request)
+    {
+        $validated = $request->validate([
+            'first_name'          => 'required',
+            'last_name'          => 'required',
+            'email'          => 'required'
+            
+        ]);
+
+        $find = User::find(Auth::id());
+        if($find)
+        {
+            $find->update([
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'email'      => $request->email
+            ]);
+
+            return redirect()->back()->with('success','Information Updated Successfully!'); 
+        }
+    }
 }

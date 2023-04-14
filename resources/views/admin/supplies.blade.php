@@ -39,14 +39,14 @@
                     <img src="{{URL::to('/img/clsu_logo.png')}}" width="50px">
                 </div>
                  <div class="sidebar-brand-text mx-3">
-                    <p style="font-size: 12px; margin-top: 30px;">{{Auth::user()->first_name}} {{Auth::user()->last_name}}</p>
+                    <p style="font-size: 12px; margin-top: 30px;">CLSU INVENTORY SYSTEM</p>
                     <p>
-                     @if(Auth::user()->hasRole('department'))
+                     <!-- @if(Auth::user()->hasRole('department'))
                         <p style="margin-top: -10px;">Officer</p>
                      @endif
                      @if(Auth::user()->hasRole('admin'))
                        <p style="margin-top: -10px;">Admin</p>
-                     @endif
+                     @endif -->
                     </p>
                 </div>
             </a>
@@ -112,6 +112,12 @@
                     <i class="fas fa-fw fa-table"></i>
                     <span>QR CODE</span></a>
             </li>
+
+             <li class="nav-item ">
+                <a class="nav-link" href="{{route('admin_warehouse_request_supplies')}}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>REQUESTED</span></a>
+            </li>
             @endif
 
             @if(Auth::user()->hasRole('department'))
@@ -176,7 +182,13 @@
                                     </div>
                                 @endforeach
                                 <div class="dropdown-item">
-                                    <a class="btn d-block w-100 text-primary" href="{{route('admin_request_supplies')}}">View all</a>
+                                    @if( Auth::user()->hasRole('admin') )
+                                        <a class="btn d-block w-100 text-primary" href="{{route('admin_request_supplies')}}">View all</a>
+                                    @endif
+
+                                    @if( Auth::user()->hasRole('warehouse') )
+                                        <a class="btn d-block w-100 text-primary" href="{{route('admin_warehouse_request_supplies')}}">View all</a>
+                                    @endif
                                 </div>
                             </div>
                         </li>
